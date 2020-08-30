@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <?xml-stylesheet type="text/css" href="rss.css" ?> -->
+<!-- <?xml-stylesheet href="rss.xsl" type="text/xsl" media="screen"?> -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+<title>Rui Marques Blog</title>
+<description>Blog posts from my personal blog</description>
+<language>en-us</language>
+<link>https://ruimarques.xyz/rss.xml</link>
+<atom:link href="https://ruimarques.xyz/rss.xml" rel="self" type="application/rss+xml" />
+<image>
+<title>Rui Marques Blog</title>
+<url>https://ruimarques.xyz/assets/img/rui.jpg</url>
+<link>https://ruimarques.xyz/rss.xml</link>
+</image>
+
+<!-- LB -->
+
+</channel>
+</rss>
