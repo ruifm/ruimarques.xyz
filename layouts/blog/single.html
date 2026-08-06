@@ -1,0 +1,19 @@
+{{- if not (findRE `^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(?:-[a-z0-9]+)*$` .File.ContentBaseName) -}}
+  {{- errorf "blog post filename must be YYYY-MM-DD-slug.md: %s" .File.Path -}}
+{{- end -}}
+{{- if and (not .Draft) (not .Description) -}}
+  {{- errorf "published blog post must have a description: %s" .File.Path -}}
+{{- end -}}
+{{ define "main" }}
+<article class="post prose">
+  <a class="back-link" href="/blog/">← Blog</a>
+  <header class="post-header">
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="lede">{{ . }}</p>{{ end }}
+  </header>
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

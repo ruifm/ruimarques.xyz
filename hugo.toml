@@ -1,0 +1,60 @@
+baseURL = 'https://ruimarques.xyz/'
+locale = 'en-GB'
+title = 'Rui Marques'
+timeZone = 'Europe/Lisbon'
+copyright = 'Rui Marques'
+enableRobotsTXT = true
+disableHugoGeneratorInject = true
+disableKinds = ['taxonomy', 'term']
+
+[params]
+  author = 'Rui Marques'
+  description = 'Software engineer in Lisbon working on compilers, static analysis, high-performance systems, and open source.'
+  email = 'rui@ruimarques.xyz'
+  socialImage = '/social-card.png'
+  twitter = '@ruimarquesXYZ'
+
+[frontmatter]
+  date = [':filename', 'date', ':default']
+  publishDate = [':filename', 'publishDate', 'date', ':default']
+
+[permalinks]
+  [permalinks.page]
+    blog = '/blog/:slug/'
+
+[outputs]
+  home = ['HTML']
+  section = ['HTML', 'RSS']
+  page = ['HTML']
+
+[outputFormats]
+  [outputFormats.RSS]
+    baseName = 'index'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = false
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    lineNos = false
+    noClasses = false
+
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+  [[menus.main]]
+    name = 'CV'
+    pageRef = '/cv'
+    weight = 20
+  [[menus.main]]
+    name = 'Blog'
+    pageRef = '/blog'
+    weight = 30
+  [[menus.main]]
+    name = 'Contact'
+    pageRef = '/contact'
+    weight = 40

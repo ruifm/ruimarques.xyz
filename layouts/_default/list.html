@@ -1,0 +1,16 @@
+{{ define "main" }}
+<section class="page prose">
+  <header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="lede">{{ . }}</p>{{ end }}
+  </header>
+  {{ .Content }}
+  {{ with .RegularPages }}
+  <ul class="plain-list">
+    {{ range .ByDate.Reverse }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{ end }}
+  </ul>
+  {{ end }}
+</section>
+{{ end }}

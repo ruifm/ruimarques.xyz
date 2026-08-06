@@ -1,0 +1,15 @@
+{{ define "main" }}
+<article class="cv-page">
+  <header class="cv-header">
+    <div>
+      <p class="eyebrow">{{ .Title }}</p>
+      <h1>{{ .Params.name }}</h1>
+      <p class="cv-subtitle">{{ .Params.subtitle }}</p>
+    </div>
+    <a class="button" href="/cv.pdf">View PDF</a>
+  </header>
+  <div class="cv-content prose">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

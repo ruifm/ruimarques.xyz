@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#191c1b"/>
+  <path d="M9 13h46v38H9z" fill="none" stroke="#3d423e" stroke-width="2"/>
+  <text x="13" y="40" fill="#e7dfc6" font-family="DejaVu Sans, sans-serif" font-size="24" font-weight="700" letter-spacing="-2">RM</text>
+  <circle cx="53" cy="42" r="3" fill="#e3a84b"/>
+</svg>

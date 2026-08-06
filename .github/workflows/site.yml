@@ -1,0 +1,90 @@
+name: Site
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '17 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Build and check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
+        with:
+          determinate: false
+
+      - name: Run checks
+        run: nix develop --command just check
+
+      - name: Check outbound links
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: nix develop --command just check-external-links
+
+      - name: Smoke-test production domain
+        if: vars.PRODUCTION_LIVE == 'true' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        run: nix develop --command scripts/smoke-site.sh https://ruimarques.xyz
+
+  deploy:
+    name: Deploy
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      deployments: write
+    environment:
+      name: production
+      url: https://ruimarques.xyz
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@c5a866b6ab867e88becbed4467b93592bce69f8a # v21
+        with:
+          determinate: false
+
+      - name: Build site
+        run: nix develop --command just build
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy public --project-name=ruimarques-xyz --branch=main
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          packageManager: npm
+          wranglerVersion: '4.93.0'
+
+      - name: Smoke-test deployment
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        run: nix develop --command scripts/smoke-site.sh "$DEPLOYMENT_URL"
+
+      - name: Smoke-test production domain
+        if: vars.PRODUCTION_LIVE == 'true'
+        run: nix develop --command scripts/smoke-site.sh https://ruimarques.xyz

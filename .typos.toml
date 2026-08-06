@@ -1,0 +1,19 @@
+[files]
+extend-exclude = [
+  "public/",
+  "resources/",
+  "static/.well-known/openpgpkey/",
+  "static/apple-touch-icon.png",
+  "static/cv.pdf",
+  "static/pgp",
+  "static/social-card.png",
+]
+
+[default.extend-words]
+Cinfo = "Cinfo"
+Codee = "Codee"
+Flang = "Flang"
+Instituto = "Instituto"
+Xesol = "Xesol"
+fpr = "fpr"
+typst = "typst"

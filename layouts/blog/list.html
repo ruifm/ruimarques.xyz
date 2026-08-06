@@ -1,0 +1,24 @@
+{{ define "main" }}
+<section class="blog-index">
+  <header class="page-header">
+    <p class="eyebrow">Writing</p>
+    <h1>{{ .Title }}</h1>
+    <div class="lede prose">{{ .Content }}</div>
+    <a class="feed-link" href="/blog/index.xml">Subscribe via RSS</a>
+  </header>
+  {{ $posts := .RegularPages.ByDate.Reverse }}
+  {{ if $posts }}
+  <ol class="post-list">
+    {{ range $posts }}
+    <li>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Description }}<p>{{ . }}</p>{{ end }}
+    </li>
+    {{ end }}
+  </ol>
+  {{ else }}
+  <p class="empty-state">No posts yet.</p>
+  {{ end }}
+</section>
+{{ end }}
