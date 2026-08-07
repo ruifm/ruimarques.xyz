@@ -92,6 +92,7 @@ a:hover {
 
 a:focus-visible,
 button:focus-visible,
+summary:focus-visible,
 [tabindex]:focus-visible {
   outline: 0.18rem solid var(--focus);
   outline-offset: 0.22rem;
@@ -419,6 +420,62 @@ strong {
   color: var(--text);
 }
 
+.contact-channel {
+  margin: 0;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.75rem 1.25rem;
+}
+
+h2 + .contact-channel {
+  border-top: 1px solid var(--line);
+}
+
+.contact-channel-address {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.contact-qr {
+  margin: 0;
+  justify-self: end;
+  text-align: right;
+}
+
+.contact-qr summary {
+  width: fit-content;
+  margin-left: auto;
+  color: var(--link);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.contact-qr summary:hover {
+  color: var(--warm);
+}
+
+.contact-qr a {
+  width: fit-content;
+  margin: 0.75rem 0 0 auto;
+  padding: 0.55rem;
+  border: 1px solid var(--line);
+  display: block;
+  background: #ffffff;
+}
+
+.contact-qr a:hover {
+  border-color: var(--accent);
+}
+
+.contact-qr img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
 .cv-page {
   max-width: 64rem;
   margin-inline: auto;
@@ -696,6 +753,14 @@ hr {
     display: block;
     min-width: 0;
     margin-bottom: 0.2rem;
+  }
+
+  .contact-channel {
+    gap: 0.5rem;
+  }
+
+  .contact-qr[open] {
+    grid-column: 1 / -1;
   }
 
   .cv-header,

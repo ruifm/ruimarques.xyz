@@ -8,10 +8,13 @@ track visits to this page.
 
 ## Direct
 
-- **Email:** [rui@ruimarques.xyz](mailto:rui@ruimarques.xyz)
-- **Matrix:** [@ruimarques:matrix.org](https://matrix.to/#/@ruimarques:matrix.org)
-- **Signal:** `rui.49` — enter the exact username in Signal’s New Chat screen.
-- **WhatsApp:** `@rui447` — reserved; username contact is not available yet.
+{{< contact-channel label="Email" text="rui@ruimarques.xyz" url="mailto:rui@ruimarques.xyz" >}}
+
+{{< contact-channel label="Matrix" text="@ruimarques:matrix.org" url="https://matrix.to/#/@ruimarques:matrix.org" qr="true" >}}
+
+{{< contact-channel label="Signal" text="rui.49" url="https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777" qr="true" >}}
+
+{{< contact-channel label="WhatsApp" text="@rui447" url="https://wa.me/qr/AEZD43DYPFN2A1" qr="true" >}}
 
 ## Public profiles
 
