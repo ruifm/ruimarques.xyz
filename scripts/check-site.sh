@@ -216,9 +216,11 @@ fi
 
 readonly matrix_url='https://matrix.to/#/@ruimarques:matrix.org'
 readonly signal_url='https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777'
+readonly telegram_url='https://t.me/ruimarquesXYZ'
 readonly whatsapp_url='https://wa.me/qr/AEZD43DYPFN2A1'
 grep -Fq "$matrix_url" public/contact/index.html
 grep -Fq "$signal_url" public/contact/index.html
+grep -Fq "$telegram_url" public/contact/index.html
 grep -Fq "$whatsapp_url" public/contact/index.html
 
 if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
@@ -227,17 +229,18 @@ if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
   exit 1
 fi
 
-if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 4 ]] \
-  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 4 ]]; then
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 5 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 5 ]]; then
   printf 'direct contact channels are not rendered as aligned rows\n' >&2
   exit 1
 fi
 
-if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 3 ]] \
+if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 4 ]] \
   || ! grep -Fq '<summary>Matrix QR code</summary>' public/contact/index.html \
   || ! grep -Fq '<summary>Signal QR code</summary>' public/contact/index.html \
+  || ! grep -Fq '<summary>Telegram QR code</summary>' public/contact/index.html \
   || ! grep -Fq '<summary>WhatsApp QR code</summary>' public/contact/index.html; then
-  printf 'contact page does not contain all three QR disclosures\n' >&2
+  printf 'contact page does not contain all four QR disclosures\n' >&2
   exit 1
 fi
 
@@ -247,8 +250,8 @@ if [[ ! -d public/images/qr ]]; then
 fi
 
 mapfile -t qr_files < <(find public/images/qr -type f -name '*.png' -print)
-if [[ "${#qr_files[@]}" -ne 3 ]]; then
-  printf 'expected exactly three generated contact QR codes\n' >&2
+if [[ "${#qr_files[@]}" -ne 4 ]]; then
+  printf 'expected exactly four generated contact QR codes\n' >&2
   exit 1
 fi
 

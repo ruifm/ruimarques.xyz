@@ -14,6 +14,8 @@ track visits to this page.
 
 {{< contact-channel label="Signal" text="rui.49" url="https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777" qr="true" >}}
 
+{{< contact-channel label="Telegram" text="@ruimarquesXYZ" url="https://t.me/ruimarquesXYZ" qr="true" >}}
+
 {{< contact-channel label="WhatsApp" text="@rui447" url="https://wa.me/qr/AEZD43DYPFN2A1" qr="true" >}}
 
 ## Public profiles
