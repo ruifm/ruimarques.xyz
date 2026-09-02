@@ -1,8 +1,14 @@
+{{- $sourceCommit := site.Params.sourceCommit | default "" -}}
+{{- if not (findRE `^[0-9a-f]{40}$` $sourceCommit) -}}
+  {{- errorf "params.sourceCommit must be a 40-character lowercase Git commit hash" -}}
+{{- end -}}
+{{- $sourceCommitShort := substr $sourceCommit 0 7 -}}
+{{- $sourceURL := printf "https://github.com/ruifm/ruimarques.xyz/commit/%s" $sourceCommit -}}
 <footer class="site-footer">
   <p>© Rui Marques</p>
   <nav aria-label="Footer navigation">
     <a href="/blog/index.xml">RSS</a>
     <a href="/pgp">PGP</a>
-    <a href="https://github.com/ruifm/ruimarques.xyz">Source</a>
+    <a href="{{ $sourceURL }}">Source <code>{{ $sourceCommitShort }}</code></a>
   </nav>
 </footer>

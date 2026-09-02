@@ -5,7 +5,7 @@ default:
 
 # Run the local site with drafts and future posts.
 serve: cv
-    hugo server --buildDrafts --buildFuture --disableFastRender
+    HUGO_PARAMS_SOURCECOMMIT="$(git rev-parse HEAD)" hugo server --buildDrafts --buildFuture --disableFastRender
 
 # Build the PDF CV from its Markdown source.
 cv:
@@ -21,7 +21,7 @@ verify-post-signatures:
 
 # Build the production site into public/.
 build: cv
-    hugo --gc --minify --cleanDestinationDir --panicOnWarning
+    HUGO_PARAMS_SOURCECOMMIT="$(git rev-parse HEAD)" hugo --gc --minify --cleanDestinationDir --panicOnWarning
 
 # Regenerate committed bitmap brand assets from their SVG sources.
 assets:

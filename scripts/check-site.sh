@@ -29,6 +29,18 @@ for required_file in "${required_files[@]}"; do
   fi
 done
 
+source_commit=$(git rev-parse HEAD)
+source_commit_short=${source_commit:0:7}
+source_commit_url="https://github.com/ruifm/ruimarques.xyz/commit/${source_commit}"
+while IFS= read -r -d '' html_file; do
+  if ! grep -Fq "$source_commit_url" "$html_file" \
+    || ! grep -Fq "Source <code>${source_commit_short}</code>" "$html_file"; then
+    printf 'generated page does not identify source commit %s: %s\n' \
+      "$source_commit_short" "$html_file" >&2
+    exit 1
+  fi
+done < <(find public -type f -name '*.html' -print0)
+
 if grep -Fq '<content:encoded>&amp;lt;' public/blog/index.xml; then
   printf 'RSS post content is escaped twice\n' >&2
   exit 1
