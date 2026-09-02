@@ -217,10 +217,12 @@ if find content -type f ! -name '*.md' -print -quit | grep -q .; then
   exit 1
 fi
 
+readonly keybase_url='https://keybase.io/ruifm'
 readonly matrix_url='https://matrix.to/#/@ruimarques:matrix.org'
 readonly signal_url='https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777'
 readonly telegram_url='https://t.me/ruimarquesXYZ'
 readonly whatsapp_url='https://wa.me/qr/AEZD43DYPFN2A1'
+grep -Fq "$keybase_url" public/contact/index.html
 grep -Fq "$matrix_url" public/contact/index.html
 grep -Fq "$signal_url" public/contact/index.html
 grep -Fq "$telegram_url" public/contact/index.html
@@ -232,8 +234,8 @@ if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
   exit 1
 fi
 
-if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 5 ]] \
-  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 5 ]]; then
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 6 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 6 ]]; then
   printf 'direct contact channels are not rendered as aligned rows\n' >&2
   exit 1
 fi

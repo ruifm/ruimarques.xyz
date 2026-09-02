@@ -18,6 +18,8 @@ track visits to this page.
 
 {{< contact-channel label="WhatsApp" text="@rui447" url="https://wa.me/qr/AEZD43DYPFN2A1" qr="true" >}}
 
+{{< contact-channel label="Keybase" text="ruifm" url="https://keybase.io/ruifm" >}}
+
 ## Public profiles
 
 - **GitHub:** [github.com/ruifm](https://github.com/ruifm)
