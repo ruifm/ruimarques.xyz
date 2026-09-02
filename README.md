@@ -36,6 +36,18 @@ Posts live at `content/blog/YYYY-MM-DD-slug.md`. Set `draft: false` when a post
 is ready; published posts require a short description. The blog feed publishes
 the twenty newest posts in full at `/blog/index.xml`.
 
+Sign a completed post with the OpenPGP key for this site:
+
+```sh
+just sign-post content/blog/2026-04-11-fewer-engineers-harder-problems.md
+```
+
+The recipe writes an ASCII detached signature under `assets/blog-signatures/`.
+The private key stays in your local GPG keyring. A signed post shows a collapsed
+signature section with links to the signature, the signed Markdown, and the
+public key. Sign the post again after each content or metadata change. Run
+`just verify-post-signatures` to verify all signed posts.
+
 `content/cv.md` is the source for both CV formats. Use this command to build
 only the PDF:
 

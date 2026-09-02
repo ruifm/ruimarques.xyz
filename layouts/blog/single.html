@@ -1,10 +1,10 @@
+{{ define "main" }}
 {{- if not (findRE `^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(?:-[a-z0-9]+)*$` .File.ContentBaseName) -}}
   {{- errorf "blog post filename must be YYYY-MM-DD-slug.md: %s" .File.Path -}}
 {{- end -}}
 {{- if and (not .Draft) (not .Description) -}}
   {{- errorf "published blog post must have a description: %s" .File.Path -}}
 {{- end -}}
-{{ define "main" }}
 <article class="post prose">
   <a class="back-link" href="/blog/">← Blog</a>
   <header class="post-header">
@@ -15,5 +15,24 @@
   <div class="post-content">
     {{ .Content }}
   </div>
+  {{- $signaturePath := printf "blog-signatures/%s.asc" .File.ContentBaseName -}}
+  {{- with resources.Get $signaturePath }}
+    {{- $publishedPath := printf "blog/signatures/%s.asc" $.File.ContentBaseName -}}
+    {{- $publishedSignature := resources.Copy $publishedPath . -}}
+    {{- $sourceURL := printf "https://raw.githubusercontent.com/ruifm/ruimarques.xyz/main/content/%s" $.File.Path -}}
+  <details class="post-signature">
+    <summary>OpenPGP signature</summary>
+    <p>This signature covers the exact Markdown source of this post.</p>
+    <p class="post-signature-links">
+      <a href="{{ $publishedSignature.RelPermalink }}" download>Download signature</a>
+      <span aria-hidden="true">·</span>
+      <a href="{{ $sourceURL }}">Signed Markdown</a>
+      <span aria-hidden="true">·</span>
+      <a href="/pgp">Public key</a>
+    </p>
+    <p class="post-signature-fingerprint">Fingerprint: <code>E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104</code></p>
+    <pre><code>{{ .Content | strings.TrimSpace }}</code></pre>
+  </details>
+  {{- end }}
 </article>
 {{ end }}

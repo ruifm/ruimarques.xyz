@@ -28,6 +28,11 @@ for required_file in "${required_files[@]}"; do
   fi
 done
 
+if grep -Fq '<content:encoded>&amp;lt;' public/blog/index.xml; then
+  printf 'RSS post content is escaped twice\n' >&2
+  exit 1
+fi
+
 while IFS= read -r -d '' static_file; do
   generated_file="public/${static_file#static/}"
   if [[ ! -f "$generated_file" ]] || ! cmp --silent "$static_file" "$generated_file"; then
@@ -35,6 +40,28 @@ while IFS= read -r -d '' static_file; do
     exit 1
   fi
 done < <(find static -type f -print0)
+
+if [[ -d assets/blog-signatures ]]; then
+  while IFS= read -r -d '' signature_file; do
+    signature_name=${signature_file##*/}
+    post_name=${signature_name%.asc}
+    published_signature="public/blog/signatures/${signature_name}"
+    post_slug=${post_name:11}
+    post_html="public/blog/${post_slug}/index.html"
+
+    if [[ ! -f "$published_signature" ]] \
+      || ! cmp --silent "$signature_file" "$published_signature"; then
+      printf 'blog signature was not published exactly: %s\n' "$signature_file" >&2
+      exit 1
+    fi
+
+    if [[ ! -f "$post_html" ]] \
+      || ! grep -Fq '<summary>OpenPGP signature</summary>' "$post_html"; then
+      printf 'signed blog post does not show its signature: %s\n' "$post_html" >&2
+      exit 1
+    fi
+  done < <(find assets/blog-signatures -type f -name '*.asc' -print0)
+fi
 
 if ! cmp --silent .generated/cv.pdf public/cv.pdf; then
   printf 'generated CV was not copied to the site\n' >&2

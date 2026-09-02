@@ -604,6 +604,49 @@ h2 + .contact-channel {
   margin-top: 3.2rem;
 }
 
+.post-signature {
+  margin-top: 3.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.9rem;
+}
+
+.post-signature summary {
+  width: fit-content;
+  color: var(--link);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.post-signature summary:hover {
+  color: var(--warm);
+}
+
+.post-signature p {
+  margin-block: 0.75rem;
+}
+
+.post-signature-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+}
+
+.post-signature-fingerprint {
+  overflow-wrap: anywhere;
+}
+
+.post-signature pre {
+  max-height: 18rem;
+  margin-bottom: 0;
+  background: var(--background);
+}
+
+.post-signature pre code {
+  font-size: 0.72rem;
+}
+
 blockquote {
   margin-inline: 0;
   padding: 0.2rem 0 0.2rem 1.2rem;
