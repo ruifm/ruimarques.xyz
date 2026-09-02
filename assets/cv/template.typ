@@ -1,6 +1,7 @@
 #let cv(
   name: [],
   subtitle: [],
+  author: [],
   body,
 ) = {
   set page(
@@ -19,6 +20,8 @@
     #text(size: 18pt, weight: "bold")[#name]
     #v(0.2em)
     #text(size: 11pt, style: "italic")[#subtitle]
+    #v(0.3em)
+    #text(size: 8pt)[#author]
   ]
   line(length: 100%, stroke: 0.5pt + black)
   v(0.5em)
@@ -50,6 +53,7 @@
 #show: doc => cv(
   name: [ $name$ ],
   subtitle: [ $subtitle$ ],
+  author: [ $author$ ],
   doc,
 )
 $body$

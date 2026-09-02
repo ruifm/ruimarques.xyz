@@ -5,6 +5,7 @@
       <p class="eyebrow">{{ .Title }}</p>
       <h1>{{ .Params.name }}</h1>
       <p class="cv-subtitle">{{ .Params.subtitle }}</p>
+      <div class="cv-author">{{ .Params.author | markdownify }}</div>
     </div>
     <a class="button" href="/cv.pdf">View PDF</a>
   </header>

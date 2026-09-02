@@ -501,6 +501,16 @@ h2 + .contact-channel {
   font-size: 1.2rem;
 }
 
+.cv-author {
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.cv-author p {
+  margin: 0;
+}
+
 .cv-content {
   max-width: none;
 }
