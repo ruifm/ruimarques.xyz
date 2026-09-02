@@ -78,6 +78,12 @@ fi
 
 grep -Fq 'localStorage' "${js_files[0]}"
 grep -Fq 'ruimarques-theme' "${js_files[0]}"
+grep -Fq 'const themes = ["light", "dark"]' assets/js/theme.js
+grep -Fq 'matchMedia("(prefers-color-scheme: dark)")' assets/js/theme.js
+if grep -Fq '"system"' assets/js/theme.js; then
+  printf 'theme script still exposes a third system state\n' >&2
+  exit 1
+fi
 if rg -ni 'https?://' "${js_files[0]}"; then
   printf 'generated theme script references a remote resource\n' >&2
   exit 1

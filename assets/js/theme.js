@@ -2,18 +2,24 @@
   "use strict";
 
   const storageKey = "ruimarques-theme";
-  const themes = ["system", "light", "dark"];
-  const icons = { system: "◐", light: "☀︎", dark: "☾" };
+  const themes = ["light", "dark"];
+  const icons = { light: "☀︎", dark: "☾" };
+  const browserPreference = matchMedia("(prefers-color-scheme: dark)");
 
   function normaliseTheme(value) {
-    return themes.includes(value) ? value : "system";
+    return themes.includes(value) ? value : null;
   }
 
   function readTheme() {
     try {
-      return normaliseTheme(localStorage.getItem(storageKey));
+      const storedTheme = localStorage.getItem(storageKey);
+      const theme = normaliseTheme(storedTheme);
+      if (storedTheme !== null && theme === null) {
+        localStorage.removeItem(storageKey);
+      }
+      return theme;
     } catch {
-      return "system";
+      return null;
     }
   }
 
@@ -26,28 +32,32 @@
   }
 
   function applyTheme(theme) {
-    if (theme === "system") {
+    if (theme === null) {
       delete document.documentElement.dataset.theme;
       return;
     }
     document.documentElement.dataset.theme = theme;
   }
 
-  function nextTheme(theme) {
-    return themes[(themes.indexOf(theme) + 1) % themes.length];
+  function preferredTheme() {
+    return browserPreference.matches ? "dark" : "light";
+  }
+
+  function oppositeTheme(theme) {
+    return theme === "dark" ? "light" : "dark";
   }
 
   function updateToggle(toggle, icon, theme) {
-    const next = nextTheme(theme);
-    const label = `Theme: ${theme}. Switch to ${next} theme.`;
-    icon.textContent = icons[theme];
+    const next = oppositeTheme(theme);
+    const label = `Switch to ${next} theme`;
+    icon.textContent = icons[next];
     toggle.setAttribute("aria-label", label);
     toggle.title = label;
     toggle.hidden = false;
   }
 
-  let currentTheme = readTheme();
-  applyTheme(currentTheme);
+  let selectedTheme = readTheme();
+  applyTheme(selectedTheme);
 
   document.addEventListener(
     "DOMContentLoaded",
@@ -58,12 +68,18 @@
         return;
       }
 
-      updateToggle(toggle, icon, currentTheme);
+      const effectiveTheme = () => selectedTheme ?? preferredTheme();
+      updateToggle(toggle, icon, effectiveTheme());
       toggle.addEventListener("click", () => {
-        currentTheme = nextTheme(currentTheme);
-        applyTheme(currentTheme);
-        saveTheme(currentTheme);
-        updateToggle(toggle, icon, currentTheme);
+        selectedTheme = oppositeTheme(effectiveTheme());
+        applyTheme(selectedTheme);
+        saveTheme(selectedTheme);
+        updateToggle(toggle, icon, selectedTheme);
+      });
+      browserPreference.addEventListener("change", () => {
+        if (selectedTheme === null) {
+          updateToggle(toggle, icon, preferredTheme());
+        }
       });
     },
     { once: true },
