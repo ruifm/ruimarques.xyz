@@ -157,6 +157,9 @@ fi
 
 grep -Fq ':root[data-theme=dark]' "${css_files[0]}"
 grep -Fq ':root:not([data-theme])' "${css_files[0]}"
+grep -Fq '.contact-qr' "${css_files[0]}"
+grep -Fq 'display:grid;grid-template-columns:minmax(0,1fr)auto;align-items:baseline' \
+  "${css_files[0]}"
 
 css_bytes=$(wc -c < "${css_files[0]}")
 if (( css_bytes > 20480 )); then
@@ -174,6 +177,52 @@ if find content -type f ! -name '*.md' -print -quit | grep -q .; then
   printf 'content/ contains a non-Markdown file\n' >&2
   exit 1
 fi
+
+readonly matrix_url='https://matrix.to/#/@ruimarques:matrix.org'
+readonly signal_url='https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777'
+readonly whatsapp_url='https://wa.me/qr/AEZD43DYPFN2A1'
+grep -Fq "$matrix_url" public/contact/index.html
+grep -Fq "$signal_url" public/contact/index.html
+grep -Fq "$whatsapp_url" public/contact/index.html
+
+if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
+  public/contact/index.html; then
+  printf 'contact page still contains Signal or WhatsApp instructions\n' >&2
+  exit 1
+fi
+
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 4 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 4 ]]; then
+  printf 'direct contact channels are not rendered as aligned rows\n' >&2
+  exit 1
+fi
+
+if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 3 ]] \
+  || ! grep -Fq '<summary>Matrix QR code</summary>' public/contact/index.html \
+  || ! grep -Fq '<summary>Signal QR code</summary>' public/contact/index.html \
+  || ! grep -Fq '<summary>WhatsApp QR code</summary>' public/contact/index.html; then
+  printf 'contact page does not contain all three QR disclosures\n' >&2
+  exit 1
+fi
+
+if [[ ! -d public/images/qr ]]; then
+  printf 'contact QR asset directory is missing\n' >&2
+  exit 1
+fi
+
+mapfile -t qr_files < <(find public/images/qr -type f -name '*.png' -print)
+if [[ "${#qr_files[@]}" -ne 3 ]]; then
+  printf 'expected exactly three generated contact QR codes\n' >&2
+  exit 1
+fi
+
+for qr_file in "${qr_files[@]}"; do
+  png_signature=$(od -An -tx1 -N8 "$qr_file" | tr -d '[:space:]')
+  if [[ "$png_signature" != '89504e470d0a1a0a' ]]; then
+    printf 'generated QR asset is not a PNG: %s\n' "$qr_file" >&2
+    exit 1
+  fi
+done
 
 grep -Fq 'Content-Signal: search=yes, ai-input=no, ai-train=no, use=reference' public/robots.txt
 grep -Fq 'Sitemap: https://ruimarques.xyz/sitemap.xml' public/robots.txt

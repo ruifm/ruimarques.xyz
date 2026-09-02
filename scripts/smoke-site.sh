@@ -140,6 +140,22 @@ if [[ "${#js_files[@]}" -ne 1 ]]; then
 fi
 js_route=/${js_files[0]#public/}
 fetch_and_compare "$js_route" "${js_files[0]}"
+
+mapfile -t qr_files < <(find public/images/qr -type f -name '*.png' -print)
+if [[ "${#qr_files[@]}" -ne 3 ]]; then
+  printf 'expected exactly three generated contact QR codes\n' >&2
+  exit 1
+fi
+for qr_file in "${qr_files[@]}"; do
+  qr_route=/${qr_file#public/}
+  fetch_and_compare "$qr_route" "$qr_file"
+  qr_headers=$(mktemp "$smoke_directory/qr-headers.XXXXXX")
+  fetch_headers "$qr_route" "$qr_headers"
+  require_header "$qr_headers" '^content-type: image/png' 'QR Content-Type'
+  require_header "$qr_headers" \
+    '^cache-control: public, max-age=31536000, immutable' 'QR Cache-Control'
+done
+
 fetch_and_compare '/__ruimarques_smoke_test_missing__' public/404.html 404
 
 site_headers="$smoke_directory/site-headers"

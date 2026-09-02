@@ -1,0 +1,17 @@
+{{- $label := .Get "label" -}}
+{{- $text := .Get "text" -}}
+{{- $url := .Get "url" -}}
+<div class="contact-channel">
+  <div class="contact-channel-address"><strong>{{ $label }}:</strong> <a href="{{ $url }}">{{ $text }}</a></div>
+  {{- if .Get "qr" }}
+    {{- $options := dict "level" "medium" "scale" 4 "targetDir" "images/qr" -}}
+    {{- with images.QR $url $options }}
+  <details class="contact-qr">
+    <summary>{{ $label }} QR code</summary>
+    <a href="{{ $url }}">
+      <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="QR code linking to Rui Marques on {{ $label }}" loading="lazy">
+    </a>
+  </details>
+    {{- end }}
+  {{- end }}
+</div>
