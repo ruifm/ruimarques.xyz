@@ -10,6 +10,7 @@ readonly required_files=(
   "public/cv/index.html"
   "public/cv.pdf"
   "public/pgp"
+  "public/pgp-canonical"
   "public/robots.txt"
   "public/sitemap.xml"
   "public/_headers"
@@ -91,6 +92,7 @@ if awk 'length($0) > 2000 { print NR; too_long = 1 } END { exit !too_long }' \
 fi
 
 grep -Fq "script-src 'self'" static/_headers
+grep -Fxq '/pgp-canonical' static/_headers
 if rg -n "script-src[^;]*'unsafe-(inline|eval)'" static/_headers; then
   printf '_headers permits unsafe JavaScript execution\n' >&2
   exit 1
@@ -218,11 +220,23 @@ if find content -type f ! -name '*.md' -print -quit | grep -q .; then
 fi
 
 readonly keybase_url='https://keybase.io/ruifm'
+readonly canonical_email='mailto:rui.marques@canonical.com'
+readonly canonical_pgp_url='/pgp-canonical'
+readonly canonical_pgp_fingerprint='202A 6DBE B3C7 B6C4 3416 9C8E 78CC 4E39 07CF 376A'
+readonly canonical_matrix_url='https://matrix.to/#/@ruifm:ubuntu.com'
+readonly canonical_discourse_url='https://discourse.canonical.com/u/ruifm'
+readonly launchpad_url='https://launchpad.net/~ruifm'
 readonly matrix_url='https://matrix.to/#/@ruimarques:matrix.org'
 readonly signal_url='https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777'
 readonly telegram_url='https://t.me/ruimarquesXYZ'
 readonly whatsapp_url='https://wa.me/qr/AEZD43DYPFN2A1'
 grep -Fq "$keybase_url" public/contact/index.html
+grep -Fq "$canonical_email" public/contact/index.html
+grep -Fq "$canonical_pgp_url" public/contact/index.html
+grep -Fq "$canonical_pgp_fingerprint" public/contact/index.html
+grep -Fq "$canonical_matrix_url" public/contact/index.html
+grep -Fq "$canonical_discourse_url" public/contact/index.html
+grep -Fq "$launchpad_url" public/contact/index.html
 grep -Fq "$matrix_url" public/contact/index.html
 grep -Fq "$signal_url" public/contact/index.html
 grep -Fq "$telegram_url" public/contact/index.html
@@ -234,18 +248,19 @@ if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
   exit 1
 fi
 
-if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 6 ]] \
-  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 6 ]]; then
-  printf 'direct contact channels are not rendered as aligned rows\n' >&2
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 11 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 11 ]]; then
+  printf 'contact channels are not rendered as aligned rows\n' >&2
   exit 1
 fi
 
-if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 4 ]] \
+if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 5 ]] \
   || ! grep -Fq '<summary>Matrix QR code</summary>' public/contact/index.html \
   || ! grep -Fq '<summary>Signal QR code</summary>' public/contact/index.html \
   || ! grep -Fq '<summary>Telegram QR code</summary>' public/contact/index.html \
+  || ! grep -Fq '<summary>Ubuntu Matrix QR code</summary>' public/contact/index.html \
   || ! grep -Fq '<summary>WhatsApp QR code</summary>' public/contact/index.html; then
-  printf 'contact page does not contain all four QR disclosures\n' >&2
+  printf 'contact page does not contain all five QR disclosures\n' >&2
   exit 1
 fi
 
@@ -255,8 +270,8 @@ if [[ ! -d public/images/qr ]]; then
 fi
 
 mapfile -t qr_files < <(find public/images/qr -type f -name '*.png' -print)
-if [[ "${#qr_files[@]}" -ne 4 ]]; then
-  printf 'expected exactly four generated contact QR codes\n' >&2
+if [[ "${#qr_files[@]}" -ne 5 ]]; then
+  printf 'expected exactly five generated contact QR codes\n' >&2
   exit 1
 fi
 

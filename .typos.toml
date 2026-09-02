@@ -6,12 +6,14 @@ extend-exclude = [
   "static/apple-touch-icon.png",
   "static/cv.pdf",
   "static/pgp",
+  "static/pgp-canonical",
   "static/social-card.png",
 ]
 
 [default.extend-words]
 Cinfo = "Cinfo"
 Codee = "Codee"
+DBE = "DBE"
 Flang = "Flang"
 Instituto = "Instituto"
 Xesol = "Xesol"

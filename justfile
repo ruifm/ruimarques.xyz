@@ -44,7 +44,7 @@ check: build
 
 # Check local and public outbound links. CI runs this on a weekly schedule.
 check-external-links: build
-    find public -type f -name '*.html' -print0 | xargs -0 lychee --no-progress --include-fragments --root-dir "$PWD/public" --index-files index.html --max-concurrency 16 --host-concurrency 2 --max-retries 2 --max-redirects 0 --timeout 20 --exclude '^https://ruimarques\.xyz(?:/|$)' --exclude '^https://doi\.org/' --exclude '^https://matrix\.to/' --exclude '^https://signal\.me/#eu/' --exclude '^https://wa\.me/qr/'
+    find public -type f -name '*.html' -print0 | xargs -0 lychee --no-progress --include-fragments --root-dir "$PWD/public" --index-files index.html --max-concurrency 16 --host-concurrency 2 --max-retries 2 --max-redirects 0 --timeout 20 --exclude '^https://ruimarques\.xyz(?:/|$)' --exclude '^https://discourse\.canonical\.com/u/ruifm$' --exclude '^https://doi\.org/' --exclude '^https://matrix\.to/' --exclude '^https://signal\.me/#eu/' --exclude '^https://wa\.me/qr/'
 
 # Create a dated draft blog post. Slugs use lowercase words separated by hyphens.
 new-post slug:

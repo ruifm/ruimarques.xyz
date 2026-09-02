@@ -32,3 +32,17 @@ My public key is available as [readable plain text](/pgp) and through WKD for
 `rui@ruimarques.xyz`.
 
 Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
+
+## Canonical and Ubuntu
+
+Use these channels for my work on Ubuntu and at Canonical.
+
+{{< contact-channel label="Work email" text="rui.marques@canonical.com" url="mailto:rui.marques@canonical.com" >}}
+
+{{< contact-channel label="Work OpenPGP" text="202A 6DBE B3C7 B6C4 3416 9C8E 78CC 4E39 07CF 376A" url="/pgp-canonical" >}}
+
+{{< contact-channel label="Ubuntu Matrix" text="@ruifm:ubuntu.com" url="https://matrix.to/#/@ruifm:ubuntu.com" qr="true" >}}
+
+{{< contact-channel label="Launchpad" text="launchpad.net/~ruifm" url="https://launchpad.net/~ruifm" >}}
+
+{{< contact-channel label="Canonical Discourse" text="discourse.canonical.com/u/ruifm" url="https://discourse.canonical.com/u/ruifm" >}}
