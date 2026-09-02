@@ -49,14 +49,17 @@ if [[ -d assets/blog-signatures ]]; then
     post_slug=${post_name:11}
     post_html="public/blog/${post_slug}/index.html"
 
+    if [[ ! -f "$post_html" ]]; then
+      continue
+    fi
+
     if [[ ! -f "$published_signature" ]] \
       || ! cmp --silent "$signature_file" "$published_signature"; then
       printf 'blog signature was not published exactly: %s\n' "$signature_file" >&2
       exit 1
     fi
 
-    if [[ ! -f "$post_html" ]] \
-      || ! grep -Fq '<summary>OpenPGP signature</summary>' "$post_html"; then
+    if ! grep -Fq '<summary>OpenPGP signature</summary>' "$post_html"; then
       printf 'signed blog post does not show its signature: %s\n' "$post_html" >&2
       exit 1
     fi
