@@ -36,14 +36,16 @@ Posts live at `content/blog/YYYY-MM-DD-slug.md`. Set `draft: false` when a post
 is ready; published posts require a short description. The blog feed publishes
 the twenty newest posts in full at `/blog/index.xml`.
 
-`content/cv.md` is the canonical HTML CV source. Replace `static/cv.pdf` with
-the matching supplied artifact when the CV changes. This repository does not
-generate the PDF. Refresh its review checksum before running the checks:
+`content/cv.md` is the source for both CV formats. Use this command to build
+only the PDF:
 
 ```sh
-sha256sum static/cv.pdf > checksums/cv.pdf.sha256
-just check
+just cv
 ```
+
+`just build` and `just serve` also generate the PDF. The build uses
+`assets/cv/template.typ`, writes `.generated/cv.pdf`, and fails unless the PDF
+has one page.
 
 The social card and Apple touch icon are committed derivatives of their SVG
 sources. Regenerate them reproducibly with `just assets`; `just check` rejects

@@ -4,11 +4,15 @@ default:
     @just --list
 
 # Run the local site with drafts and future posts.
-serve:
+serve: cv
     hugo server --buildDrafts --buildFuture --disableFastRender
 
+# Build the PDF CV from its Markdown source.
+cv:
+    scripts/build-cv.sh
+
 # Build the production site into public/.
-build:
+build: cv
     hugo --gc --minify --cleanDestinationDir --panicOnWarning
 
 # Regenerate committed bitmap brand assets from their SVG sources.

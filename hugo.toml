@@ -1,4 +1,5 @@
 baseURL = 'https://ruimarques.xyz/'
+staticDir = ['static', '.generated']
 locale = 'en-GB'
 title = 'Rui Marques'
 timeZone = 'Europe/Lisbon'

@@ -28,8 +28,6 @@ for required_file in "${required_files[@]}"; do
   fi
 done
 
-sha256sum --check checksums/cv.pdf.sha256
-
 while IFS= read -r -d '' static_file; do
   generated_file="public/${static_file#static/}"
   if [[ ! -f "$generated_file" ]] || ! cmp --silent "$static_file" "$generated_file"; then
@@ -37,6 +35,17 @@ while IFS= read -r -d '' static_file; do
     exit 1
   fi
 done < <(find static -type f -print0)
+
+if ! cmp --silent .generated/cv.pdf public/cv.pdf; then
+  printf 'generated CV was not copied to the site\n' >&2
+  exit 1
+fi
+
+cv_pages=$(pdfinfo public/cv.pdf | awk '$1 == "Pages:" { print $2 }')
+if [[ "$cv_pages" != 1 ]]; then
+  printf 'generated CV must have one page; found %s\n' "${cv_pages:-unknown}" >&2
+  exit 1
+fi
 
 header_rule_count=$(awk '/^[^[:space:]#]/ { count++ } END { print count + 0 }' \
   static/_headers)
