@@ -132,12 +132,20 @@ if [[ "${#css_files[@]}" -ne 1 ]]; then
 fi
 css_route=/${css_files[0]#public/}
 fetch_and_compare "$css_route" "${css_files[0]}"
+
+mapfile -t js_files < <(find public/js -type f -name '*.js' -print)
+if [[ "${#js_files[@]}" -ne 1 ]]; then
+  printf 'expected exactly one generated JavaScript file\n' >&2
+  exit 1
+fi
+js_route=/${js_files[0]#public/}
+fetch_and_compare "$js_route" "${js_files[0]}"
 fetch_and_compare '/__ruimarques_smoke_test_missing__' public/404.html 404
 
 site_headers="$smoke_directory/site-headers"
 fetch_headers / "$site_headers"
 require_header "$site_headers" \
-  "^content-security-policy: .*script-src 'none'" \
+  "^content-security-policy: .*script-src 'self'" \
   'Content-Security-Policy'
 require_header "$site_headers" \
   '^strict-transport-security: max-age=31536000; includeSubDomains' \
@@ -189,6 +197,13 @@ css_headers="$smoke_directory/css-headers"
 fetch_headers "$css_route" "$css_headers"
 require_header "$css_headers" \
   '^cache-control: public, max-age=31536000, immutable' 'CSS Cache-Control'
+
+js_headers="$smoke_directory/js-headers"
+fetch_headers "$js_route" "$js_headers"
+require_header "$js_headers" \
+  '^cache-control: public, max-age=31536000, immutable' 'JavaScript Cache-Control'
+require_header "$js_headers" '^content-type: (application|text)/javascript' \
+  'JavaScript Content-Type'
 
 pdf_headers="$smoke_directory/pdf-headers"
 fetch_headers /cv.pdf "$pdf_headers"

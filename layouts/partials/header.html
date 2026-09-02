@@ -9,6 +9,11 @@
         <a href="{{ .URL }}"{{ if or (eq $current.RelPermalink .URL) (and (eq .URL "/blog/") (eq $current.Section "blog")) }} aria-current="page"{{ end }}>{{ .Name }}</a>
       </li>
       {{- end }}
+      <li>
+        <button class="theme-toggle" type="button" data-theme-toggle hidden aria-label="Change theme" title="Change theme">
+          <span class="theme-toggle-icon" data-theme-icon aria-hidden="true">◐</span>
+        </button>
+      </li>
     </ul>
   </nav>
 </header>

@@ -51,15 +51,73 @@ if awk 'length($0) > 2000 { print NR; too_long = 1 } END { exit !too_long }' \
   exit 1
 fi
 
-if find public -type f \( -iname '*.js' -o -iname '*.mjs' -o -iname '*.cjs' \
-  -o -iname '*.wasm' \) -print -quit | grep -q .; then
-  printf 'generated site contains an executable browser asset\n' >&2
+grep -Fq "script-src 'self'" static/_headers
+if rg -n "script-src[^;]*'unsafe-(inline|eval)'" static/_headers; then
+  printf '_headers permits unsafe JavaScript execution\n' >&2
   exit 1
 fi
 
-if rg -ni '<script\b|javascript:|[[:space:]]on[a-z]+[[:space:]]*=' public \
+mapfile -t js_files < <(find public -type f -name '*.js' -print)
+if [[ "${#js_files[@]}" -ne 1 ]] \
+  || [[ ! "${js_files[0]:-}" =~ ^public/js/theme\.min\.[0-9a-f]+\.js$ ]]; then
+  printf 'expected exactly one fingerprinted theme script\n' >&2
+  exit 1
+fi
+
+if find public -type f \( -iname '*.mjs' -o -iname '*.cjs' -o -iname '*.wasm' \) \
+  -print -quit | grep -q .; then
+  printf 'generated site contains an unexpected executable browser asset\n' >&2
+  exit 1
+fi
+
+js_bytes=$(wc -c < "${js_files[0]}")
+if (( js_bytes > 4096 )); then
+  printf 'generated theme script exceeds 4 KiB: %s bytes\n' "$js_bytes" >&2
+  exit 1
+fi
+
+grep -Fq 'localStorage' "${js_files[0]}"
+grep -Fq 'ruimarques-theme' "${js_files[0]}"
+if rg -ni 'https?://' "${js_files[0]}"; then
+  printf 'generated theme script references a remote resource\n' >&2
+  exit 1
+fi
+
+js_route=/${js_files[0]#public/}
+js_route_pattern=${js_route//./\\.}
+while IFS= read -r -d '' html_file; do
+  script_count=$(awk '
+    {
+      line = tolower($0)
+      while (match(line, /<script([[:space:]>]|$)/)) {
+        count++
+        line = substr(line, RSTART + RLENGTH)
+      }
+    }
+    END { print count + 0 }
+  ' "$html_file")
+  if (( script_count != 1 )) \
+    || ! rg -q "<script src=${js_route_pattern} integrity=sha384-[^ >]+ crossorigin=anonymous></script>" \
+      "$html_file"; then
+    printf 'generated HTML does not load only the expected theme script: %s\n' \
+      "$html_file" >&2
+    exit 1
+  fi
+  if ! grep -Fq 'data-theme-toggle hidden' "$html_file"; then
+    printf 'generated HTML is missing the progressive theme control: %s\n' \
+      "$html_file" >&2
+    exit 1
+  fi
+done < <(find public -type f -name '*.html' -print0)
+
+if rg -ni 'javascript:|[[:space:]]on[a-z]+[[:space:]]*=' public \
   --glob '*.html' --glob '*.svg'; then
-  printf 'generated markup contains executable browser content\n' >&2
+  printf 'generated markup contains inline executable content\n' >&2
+  exit 1
+fi
+
+if rg -ni '<script\b' public --glob '*.svg'; then
+  printf 'generated SVG contains a script element\n' >&2
   exit 1
 fi
 
@@ -90,6 +148,9 @@ if [[ "${#css_files[@]}" -ne 1 ]]; then
   printf 'expected exactly one generated CSS file\n' >&2
   exit 1
 fi
+
+grep -Fq ':root[data-theme=dark]' "${css_files[0]}"
+grep -Fq ':root:not([data-theme])' "${css_files[0]}"
 
 css_bytes=$(wc -c < "${css_files[0]}")
 if (( css_bytes > 20480 )); then
