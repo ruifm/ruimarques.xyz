@@ -167,6 +167,12 @@ while IFS= read -r -d '' html_file; do
       "$html_file" >&2
     exit 1
   fi
+  if ! grep -Fq '<link rel=me href=https://mastodon.social/@ruimarques>' \
+    "$html_file"; then
+    printf 'generated HTML is missing the Mastodon identity link: %s\n' \
+      "$html_file" >&2
+    exit 1
+  fi
 done < <(find public -type f -name '*.html' -print0)
 
 if rg -ni 'javascript:|[[:space:]]on[a-z]+[[:space:]]*=' public \
@@ -228,6 +234,45 @@ fi
 
 if find content -type f ! -name '*.md' -print -quit | grep -q .; then
   printf 'content/ contains a non-Markdown file\n' >&2
+  exit 1
+fi
+
+readonly -a expected_home_sections=(
+  '<h2 id=main-links>Main links</h2>'
+  '<h2 id=on-this-site>On this site</h2>'
+  '<h2 id=other-profiles>Other profiles</h2>'
+)
+mapfile -t home_sections < <(
+  rg -o '<h2 id=(main-links|on-this-site|other-profiles)>[^<]+</h2>' \
+    public/index.html
+)
+if [[ "${home_sections[*]}" != "${expected_home_sections[*]}" ]]; then
+  printf 'home page link sections are missing or in the wrong order\n' >&2
+  exit 1
+fi
+
+readonly -a main_link_urls=(
+  'mailto:rui@ruimarques.xyz'
+  'https://github.com/ruifm'
+  'https://www.linkedin.com/in/ruiferreiramarques'
+)
+readonly -a other_profile_urls=(
+  'https://mastodon.social/@ruimarques'
+  'https://bsky.app/profile/ruirm.bsky.social'
+  'https://x.com/ruimarquesXYZ'
+  'https://news.ycombinator.com/user?id=ruimarquesXYZ'
+  'https://www.reddit.com/user/ruimarquesxyz/'
+)
+for profile_url in "${main_link_urls[@]}" "${other_profile_urls[@]}"; do
+  if ! grep -Fq "$profile_url" public/index.html; then
+    printf 'home page is missing profile URL: %s\n' "$profile_url" >&2
+    exit 1
+  fi
+done
+
+if grep -Fq '<h2 id=public-profiles>Public profiles</h2>' \
+  public/contact/index.html; then
+  printf 'contact page still contains the public profiles section\n' >&2
   exit 1
 fi
 

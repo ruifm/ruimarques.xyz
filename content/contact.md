@@ -6,6 +6,8 @@ description: 'Ways to contact Rui Marques and verify his public identity.'
 Use whichever channel suits the conversation. I do not use a contact form or
 track visits to this page.
 
+My main links and public profiles are on the [home page](/).
+
 ## Direct
 
 {{< contact-channel label="Email" text="rui@ruimarques.xyz" url="mailto:rui@ruimarques.xyz" >}}
@@ -19,12 +21,6 @@ track visits to this page.
 {{< contact-channel label="WhatsApp" text="@rui447" url="https://wa.me/qr/AEZD43DYPFN2A1" qr="true" >}}
 
 {{< contact-channel label="Keybase" text="ruifm" url="https://keybase.io/ruifm" >}}
-
-## Public profiles
-
-- **GitHub:** [github.com/ruifm](https://github.com/ruifm)
-- **LinkedIn:** [linkedin.com/in/ruiferreiramarques](https://www.linkedin.com/in/ruiferreiramarques)
-- **Twitter:** [@ruimarquesXYZ](https://x.com/ruimarquesXYZ)
 
 ## OpenPGP
 
