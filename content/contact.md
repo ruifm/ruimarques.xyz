@@ -6,8 +6,6 @@ description: 'Ways to contact Rui Marques and verify his public identity.'
 Use whichever channel suits the conversation. I do not use a contact form or
 track visits to this page.
 
-My main links are on the [home page](/).
-
 ## Direct
 
 {{< contact-channel label="Email" text="rui@ruimarques.xyz" url="mailto:rui@ruimarques.xyz" icon="mail" >}}
