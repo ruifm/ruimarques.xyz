@@ -7,8 +7,8 @@
 <footer class="site-footer">
   <p>© Rui Marques</p>
   <nav aria-label="Footer navigation">
-    <a href="/blog/index.xml">RSS</a>
-    <a href="/pgp">PGP</a>
-    <a href="{{ $sourceURL }}">Source <code>{{ $sourceCommitShort }}</code></a>
+    <a href="/blog/index.xml">{{ partial "icon.html" (dict "name" "rss") }}<span>RSS</span></a>
+    <a href="/pgp">{{ partial "icon.html" (dict "name" "key") }}<span>PGP</span></a>
+    <a href="{{ $sourceURL }}">{{ partial "icon.html" (dict "name" "source-code") }}<span>Source <code>{{ $sourceCommitShort }}</code></span></a>
   </nav>
 </footer>

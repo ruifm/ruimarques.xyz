@@ -6,12 +6,15 @@
       {{- $current := . -}}
       {{- range site.Menus.main }}
       <li>
-        <a href="{{ .URL }}"{{ if or (eq $current.RelPermalink .URL) (and (eq .URL "/blog/") (eq $current.Section "blog")) }} aria-current="page"{{ end }}>{{ .Name }}</a>
+        <a href="{{ .URL }}"{{ if or (eq $current.RelPermalink .URL) (and (eq .URL "/blog/") (eq $current.Section "blog")) }} aria-current="page"{{ end }}>
+          {{- partial "icon.html" (dict "name" .Params.icon) -}}
+          <span>{{ .Name }}</span>
+        </a>
       </li>
       {{- end }}
       <li>
         <button class="theme-toggle" type="button" data-theme-toggle hidden aria-label="Change theme" title="Change theme">
-          <span class="theme-toggle-icon" data-theme-icon aria-hidden="true">☾</span>
+          <span class="theme-toggle-icon" data-theme-icon>{{ partial "icon.html" (dict "name" "moon") }}</span>
         </button>
       </li>
     </ul>

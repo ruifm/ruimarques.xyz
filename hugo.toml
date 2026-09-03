@@ -47,15 +47,23 @@ disableKinds = ['taxonomy', 'term']
     name = 'Home'
     pageRef = '/'
     weight = 10
+    [menus.main.params]
+      icon = 'home'
   [[menus.main]]
     name = 'CV'
     pageRef = '/cv'
     weight = 20
+    [menus.main.params]
+      icon = 'file-cv'
   [[menus.main]]
     name = 'Blog'
     pageRef = '/blog'
     weight = 30
+    [menus.main.params]
+      icon = 'article'
   [[menus.main]]
     name = 'Contact'
     pageRef = '/contact'
     weight = 40
+    [menus.main.params]
+      icon = 'address-book'

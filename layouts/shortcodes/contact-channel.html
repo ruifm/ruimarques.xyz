@@ -1,13 +1,17 @@
 {{- $label := .Get "label" -}}
 {{- $text := .Get "text" -}}
 {{- $url := .Get "url" -}}
+{{- $icon := .Get "icon" -}}
 <div class="contact-channel">
-  <div class="contact-channel-address"><strong>{{ $label }}:</strong> <a href="{{ $url }}">{{ $text }}</a></div>
+  <div class="contact-channel-address">
+    {{- partial "icon.html" (dict "name" $icon) -}}
+    <span><strong>{{ $label }}:</strong> <a href="{{ $url }}">{{ $text }}</a></span>
+  </div>
   {{- if .Get "qr" }}
     {{- $options := dict "level" "medium" "scale" 4 "targetDir" "images/qr" -}}
     {{- with images.QR $url $options }}
   <details class="contact-qr">
-    <summary>{{ $label }} QR code</summary>
+    <summary>{{ partial "icon.html" (dict "name" "qrcode") }}<span>{{ $label }} QR code</span></summary>
     <a href="{{ $url }}">
       <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="QR code linking to Rui Marques on {{ $label }}" loading="lazy">
     </a>

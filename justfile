@@ -37,7 +37,7 @@ check: build
     scripts/check-site.sh
     scripts/check-pgp.sh
     html5validator --root public
-    xmllint --noout public/blog/index.xml public/sitemap.xml
+    xmllint --noout public/blog/index.xml public/sitemap.xml public/icons.svg
     find public -type f -name '*.html' -print0 | xargs -0 lychee --offline --include-fragments --root-dir "$PWD/public" --index-files index.html
     actionlint
     typos

@@ -3,7 +3,7 @@
 
   const storageKey = "ruimarques-theme";
   const themes = ["light", "dark"];
-  const icons = { light: "☀︎", dark: "☾" };
+  const icons = { light: "sun", dark: "moon" };
   const browserPreference = matchMedia("(prefers-color-scheme: dark)");
 
   function normaliseTheme(value) {
@@ -50,7 +50,7 @@
   function updateToggle(toggle, icon, theme) {
     const next = oppositeTheme(theme);
     const label = `Switch to ${next} theme`;
-    icon.textContent = icons[next];
+    icon.setAttribute("href", `/icons.svg#icon-${icons[next]}`);
     toggle.setAttribute("aria-label", label);
     toggle.title = label;
     toggle.hidden = false;
@@ -63,8 +63,8 @@
     "DOMContentLoaded",
     () => {
       const toggle = document.querySelector("[data-theme-toggle]");
-      const icon = document.querySelector("[data-theme-icon]");
-      if (!(toggle instanceof HTMLButtonElement) || !(icon instanceof HTMLElement)) {
+      const icon = document.querySelector("[data-theme-icon] use");
+      if (!(toggle instanceof HTMLButtonElement) || icon === null) {
         return;
       }
 

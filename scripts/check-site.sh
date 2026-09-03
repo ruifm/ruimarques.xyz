@@ -19,6 +19,7 @@ readonly required_files=(
   "public/.well-known/openpgpkey/hu/1b68i9kzz3ruqi9t8ugt5in75zan5cdj"
   "public/apple-touch-icon.png"
   "public/favicon.svg"
+  "public/icons.svg"
   "public/social-card.png"
 )
 
@@ -54,6 +55,129 @@ while IFS= read -r -d '' static_file; do
   fi
 done < <(find static -type f -print0)
 
+readonly -a expected_icon_ids=(
+  address-book
+  arrow-left
+  article
+  brand-bluesky
+  brand-github
+  brand-linkedin
+  brand-mastodon
+  brand-matrix
+  brand-reddit
+  brand-signal
+  brand-telegram
+  brand-ubuntu
+  brand-whatsapp
+  brand-x
+  brand-ycombinator
+  download
+  file-cv
+  file-type-pdf
+  home
+  key
+  mail
+  markdown
+  messages
+  moon
+  qrcode
+  rocket
+  rss
+  signature
+  source-code
+  sun
+)
+mapfile -t icon_ids < <(
+  rg -o --no-filename 'id="icon-[a-z0-9-]+"' static/icons.svg \
+    | sed -E 's/^id="icon-//; s/"$//' \
+    | sort
+)
+if [[ "${icon_ids[*]}" != "${expected_icon_ids[*]}" ]]; then
+  printf 'local icon sprite does not contain the expected icon set\n' >&2
+  exit 1
+fi
+icon_bytes=$(wc -c < static/icons.svg)
+if (( icon_bytes > 16384 )); then
+  printf 'local icon sprite exceeds 16 KiB: %s bytes\n' "$icon_bytes" >&2
+  exit 1
+fi
+if rg -ni '<script\b|\bon[a-z]+=' static/icons.svg \
+  || rg -ni "(?:href|xlink:href)=[\"']?https?://" static/icons.svg; then
+  printf 'local icon sprite contains executable or remote content\n' >&2
+  exit 1
+fi
+
+mapfile -t referenced_icon_ids < <(
+  rg -o --no-filename "href=[\"']?/icons\\.svg#icon-[a-z0-9-]+" public \
+    --glob '*.html' \
+    | sed -E "s|^href=[\"']?/icons\\.svg#icon-||" \
+    | sort -u
+)
+for icon_id in "${referenced_icon_ids[@]}"; do
+  if [[ ! " ${expected_icon_ids[*]} " =~ [[:space:]]${icon_id}[[:space:]] ]]; then
+    printf 'generated HTML references an unknown icon: %s\n' "$icon_id" >&2
+    exit 1
+  fi
+done
+
+if [[ $(rg -o --no-filename '<svg\b' public --glob '*.html' | wc -l) \
+  -ne $(rg -o --no-filename 'aria-hidden="true" focusable="false"' public \
+    --glob '*.html' | wc -l) ]]; then
+  printf 'generated interface icons are not all hidden from assistive technology\n' >&2
+  exit 1
+fi
+
+readonly -a home_icon_ids=(
+  mail
+  brand-github
+  brand-linkedin
+  file-cv
+  article
+  address-book
+  brand-mastodon
+  brand-bluesky
+  brand-x
+  brand-ycombinator
+  brand-reddit
+)
+for icon_id in "${home_icon_ids[@]}"; do
+  if ! grep -Fq "/icons.svg#icon-${icon_id}" public/index.html; then
+    printf 'home page is missing its %s icon\n' "$icon_id" >&2
+    exit 1
+  fi
+done
+
+readonly -a contact_icon_ids=(
+  mail
+  brand-matrix
+  brand-signal
+  brand-telegram
+  brand-whatsapp
+  key
+  brand-ubuntu
+  rocket
+  messages
+  qrcode
+)
+for icon_id in "${contact_icon_ids[@]}"; do
+  if ! grep -Fq "/icons.svg#icon-${icon_id}" public/contact/index.html; then
+    printf 'contact page is missing its %s icon\n' "$icon_id" >&2
+    exit 1
+  fi
+done
+
+grep -Fq '/icons.svg#icon-file-type-pdf' public/cv/index.html
+grep -Fq '/icons.svg#icon-rss' public/blog/index.html
+grep -Fq '/icons.svg#icon-article' public/blog/index.html
+grep -Fq '/icons.svg#icon-home' public/404.html
+grep -Fq 'const icons = { light: "sun", dark: "moon" }' assets/js/theme.js
+grep -Fq 'icon.setAttribute("href"' assets/js/theme.js
+grep -Fq '/icons.svg#icon-' assets/js/theme.js
+if rg -n '☀|☾|← Blog|content: " (↗|→)"' assets layouts; then
+  printf 'interface still contains a text symbol that an icon replaces\n' >&2
+  exit 1
+fi
+
 if [[ -d assets/blog-signatures ]]; then
   while IFS= read -r -d '' signature_file; do
     signature_name=${signature_file##*/}
@@ -72,7 +196,7 @@ if [[ -d assets/blog-signatures ]]; then
       exit 1
     fi
 
-    if ! grep -Fq '<summary>OpenPGP signature</summary>' "$post_html"; then
+    if ! grep -Fq 'OpenPGP signature</span></summary>' "$post_html"; then
       printf 'signed blog post does not show its signature: %s\n' "$post_html" >&2
       exit 1
     fi
@@ -312,11 +436,12 @@ if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -
 fi
 
 if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 5 ]] \
-  || ! grep -Fq '<summary>Matrix QR code</summary>' public/contact/index.html \
-  || ! grep -Fq '<summary>Signal QR code</summary>' public/contact/index.html \
-  || ! grep -Fq '<summary>Telegram QR code</summary>' public/contact/index.html \
-  || ! grep -Fq '<summary>Ubuntu Matrix QR code</summary>' public/contact/index.html \
-  || ! grep -Fq '<summary>WhatsApp QR code</summary>' public/contact/index.html; then
+  || [[ $(rg -o '/icons.svg#icon-qrcode' public/contact/index.html | wc -l) -ne 5 ]] \
+  || ! grep -Fq 'Matrix QR code</span></summary>' public/contact/index.html \
+  || ! grep -Fq 'Signal QR code</span></summary>' public/contact/index.html \
+  || ! grep -Fq 'Telegram QR code</span></summary>' public/contact/index.html \
+  || ! grep -Fq 'Ubuntu Matrix QR code</span></summary>' public/contact/index.html \
+  || ! grep -Fq 'WhatsApp QR code</span></summary>' public/contact/index.html; then
   printf 'contact page does not contain all five QR disclosures\n' >&2
   exit 1
 fi

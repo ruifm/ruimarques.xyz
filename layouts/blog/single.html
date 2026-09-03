@@ -6,7 +6,7 @@
   {{- errorf "published blog post must have a description: %s" .File.Path -}}
 {{- end -}}
 <article class="post prose">
-  <a class="back-link" href="/blog/">← Blog</a>
+  <a class="back-link" href="/blog/">{{ partial "icon.html" (dict "name" "arrow-left") }}<span>Blog</span></a>
   <header class="post-header">
     <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
     <h1>{{ .Title }}</h1>
@@ -21,14 +21,12 @@
     {{- $publishedSignature := resources.Copy $publishedPath . -}}
     {{- $sourceURL := printf "https://raw.githubusercontent.com/ruifm/ruimarques.xyz/main/content/%s" $.File.Path -}}
   <details class="post-signature">
-    <summary>OpenPGP signature</summary>
+    <summary>{{ partial "icon.html" (dict "name" "signature") }}<span>OpenPGP signature</span></summary>
     <p>This signature covers the exact Markdown source of this post.</p>
     <p class="post-signature-links">
-      <a href="{{ $publishedSignature.RelPermalink }}" download>Download signature</a>
-      <span aria-hidden="true">·</span>
-      <a href="{{ $sourceURL }}">Signed Markdown</a>
-      <span aria-hidden="true">·</span>
-      <a href="/pgp">Public key</a>
+      <a href="{{ $publishedSignature.RelPermalink }}" download>{{ partial "icon.html" (dict "name" "download") }}<span>Download signature</span></a>
+      <a href="{{ $sourceURL }}">{{ partial "icon.html" (dict "name" "markdown") }}<span>Signed Markdown</span></a>
+      <a href="/pgp">{{ partial "icon.html" (dict "name" "key") }}<span>Public key</span></a>
     </p>
     <p class="post-signature-fingerprint">Fingerprint: <code>E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104</code></p>
     <pre><code>{{ .Content | strings.TrimSpace }}</code></pre>

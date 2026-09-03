@@ -7,7 +7,7 @@
       <p class="cv-subtitle">{{ .Params.subtitle }}</p>
       <div class="cv-author">{{ .Params.author | markdownify }}</div>
     </div>
-    <a class="button" href="/cv.pdf">View PDF</a>
+    <a class="button" href="/cv.pdf">{{ partial "icon.html" (dict "name" "file-type-pdf") }}<span>View PDF</span></a>
   </header>
   <div class="cv-content prose">
     {{ .Content }}

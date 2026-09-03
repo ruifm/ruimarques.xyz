@@ -114,6 +114,7 @@ readonly route_files=(
   "/robots.txt|public/robots.txt"
   "/sitemap.xml|public/sitemap.xml"
   "/favicon.svg|public/favicon.svg"
+  "/icons.svg|public/icons.svg"
   "/apple-touch-icon.png|public/apple-touch-icon.png"
   "/social-card.png|public/social-card.png"
   "/.well-known/security.txt|public/.well-known/security.txt"
@@ -227,6 +228,12 @@ require_header "$js_headers" '^content-type: (application|text)/javascript' \
 pdf_headers="$smoke_directory/pdf-headers"
 fetch_headers /cv.pdf "$pdf_headers"
 require_header "$pdf_headers" '^content-type: application/pdf' 'PDF Content-Type'
+
+icon_headers="$smoke_directory/icon-headers"
+fetch_headers /icons.svg "$icon_headers"
+require_header "$icon_headers" '^content-type: image/svg\+xml' 'Icon Content-Type'
+require_header "$icon_headers" \
+  '^cache-control: public, max-age=604800, must-revalidate' 'Icon Cache-Control'
 
 security_headers="$smoke_directory/security-headers"
 fetch_headers '/.well-known/security.txt' "$security_headers"

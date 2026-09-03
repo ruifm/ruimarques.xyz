@@ -105,6 +105,14 @@ svg {
   max-width: 100%;
 }
 
+.icon {
+  width: 1.1em;
+  height: 1.1em;
+  display: inline-block;
+  flex: 0 0 auto;
+  vertical-align: -0.18em;
+}
+
 .skip-link {
   position: fixed;
   z-index: 10;
@@ -167,6 +175,9 @@ main {
 
 .site-nav li a {
   padding-block: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   color: var(--muted);
   font-size: 0.94rem;
   font-weight: 650;
@@ -213,6 +224,9 @@ main {
 }
 
 .theme-toggle-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: block;
   font-size: 1rem;
 }
 
@@ -243,6 +257,9 @@ main {
 }
 
 .site-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
   color: inherit;
 }
 
@@ -379,27 +396,25 @@ strong {
 }
 
 .home-content li {
+  position: relative;
   margin: 0;
-  padding: 1rem 0;
+  padding: 1rem 0 1rem 2rem;
   border-bottom: 1px solid var(--line);
   color: var(--muted);
 }
 
-.home-content li > a:first-child {
+.home-content li > .icon:first-child {
+  position: absolute;
+  top: 1.3rem;
+  left: 0;
+  color: var(--accent);
+}
+
+.home-content li > .icon + a {
   display: inline-block;
   min-width: 11rem;
   color: var(--text);
   font-weight: 720;
-}
-
-.home-content li > a:first-child::after {
-  content: " ↗";
-  color: var(--accent);
-  font-weight: 500;
-}
-
-.home-content li > a[href^="/"]::after {
-  content: " →";
 }
 
 .button {
@@ -436,7 +451,15 @@ h2 + .contact-channel {
 
 .contact-channel-address {
   min-width: 0;
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.55rem;
   overflow-wrap: anywhere;
+}
+
+.contact-channel-address > .icon {
+  margin-top: 0.3em;
+  color: var(--accent);
 }
 
 .contact-qr {
@@ -451,6 +474,11 @@ h2 + .contact-channel {
   color: var(--link);
   cursor: pointer;
   font-size: 0.9rem;
+}
+
+.contact-qr summary .icon,
+.post-signature summary .icon {
+  margin-right: 0.3rem;
 }
 
 .contact-qr summary:hover {
@@ -551,7 +579,9 @@ h2 + .contact-channel {
 
 .feed-link,
 .back-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   margin-top: 1.1rem;
   font-size: 0.92rem;
 }
@@ -583,7 +613,15 @@ h2 + .contact-channel {
 }
 
 .post-list h2 a {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.45rem;
   color: var(--text);
+}
+
+.post-list h2 .icon {
+  margin-top: 0.2em;
+  color: var(--accent);
 }
 
 .post-list p,
@@ -640,7 +678,14 @@ h2 + .contact-channel {
 .post-signature-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
+  gap: 0.5rem 1rem;
+}
+
+.post-signature-links a,
+.action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .post-signature-fingerprint {
@@ -802,7 +847,17 @@ hr {
     padding-block: 3.5rem;
   }
 
-  .home-content li > a:first-child {
+  .site-nav li a {
+    gap: 0.25rem;
+    font-size: 0.82rem;
+  }
+
+  .site-nav li a .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .home-content li > .icon + a {
     display: block;
     min-width: 0;
     margin-bottom: 0.2rem;

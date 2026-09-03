@@ -4,7 +4,7 @@
     <p class="eyebrow">Writing</p>
     <h1>{{ .Title }}</h1>
     <div class="lede prose">{{ .Content }}</div>
-    <a class="feed-link" href="/blog/index.xml">Subscribe via RSS</a>
+    <a class="feed-link" href="/blog/index.xml">{{ partial "icon.html" (dict "name" "rss") }}<span>Subscribe via RSS</span></a>
   </header>
   {{ $posts := .RegularPages.ByDate.Reverse }}
   {{ if $posts }}
@@ -12,7 +12,7 @@
     {{ range $posts }}
     <li>
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format ":date_long" }}</time>
-      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      <h2><a href="{{ .RelPermalink }}">{{ partial "icon.html" (dict "name" "article") }}<span>{{ .Title }}</span></a></h2>
       {{ with .Description }}<p>{{ . }}</p>{{ end }}
     </li>
     {{ end }}
