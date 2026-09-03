@@ -6,7 +6,7 @@ description: 'Ways to contact Rui Marques and verify his public identity.'
 Use whichever channel suits the conversation. I do not use a contact form or
 track visits to this page.
 
-My main links and public profiles are on the [home page](/).
+My main links are on the [home page](/).
 
 ## Direct
 
@@ -29,6 +29,26 @@ My main links and public profiles are on the [home page](/).
 
 Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
 
+## Other profiles
+
+{{< contact-channel label="GitHub" text="ruifm" url="https://github.com/ruifm" icon="brand-github" >}}
+
+{{< contact-channel label="LinkedIn" text="ruiferreiramarques" url="https://www.linkedin.com/in/ruiferreiramarques" icon="brand-linkedin" >}}
+
+{{< contact-channel label="GitLab" text="ruifm" url="https://gitlab.com/ruifm" icon="brand-gitlab" >}}
+
+{{< contact-channel label="LLVM Discourse" text="ruifm" url="https://discourse.llvm.org/u/ruifm" icon="messages" >}}
+
+{{< contact-channel label="Mastodon" text="@ruimarques@mastodon.social" url="https://mastodon.social/@ruimarques" icon="brand-mastodon" >}}
+
+{{< contact-channel label="Bluesky" text="@ruirm.bsky.social" url="https://bsky.app/profile/ruirm.bsky.social" icon="brand-bluesky" >}}
+
+{{< contact-channel label="Twitter" text="@ruimarquesXYZ" url="https://x.com/ruimarquesXYZ" icon="brand-x" >}}
+
+{{< contact-channel label="Hacker News" text="ruimarquesXYZ" url="https://news.ycombinator.com/user?id=ruimarquesXYZ" icon="brand-ycombinator" >}}
+
+{{< contact-channel label="Reddit" text="u/ruimarquesxyz" url="https://www.reddit.com/user/ruimarquesxyz/" icon="brand-reddit" >}}
+
 ## Canonical and Ubuntu
 
 Use these channels for my work on Ubuntu and at Canonical.
@@ -39,6 +59,6 @@ Use these channels for my work on Ubuntu and at Canonical.
 
 {{< contact-channel label="Ubuntu Matrix" text="@ruifm:ubuntu.com" url="https://matrix.to/#/@ruifm:ubuntu.com" icon="brand-ubuntu" qr="true" >}}
 
-{{< contact-channel label="Launchpad" text="launchpad.net/~ruifm" url="https://launchpad.net/~ruifm" icon="rocket" >}}
+{{< contact-channel label="Launchpad" text="~ruifm" url="https://launchpad.net/~ruifm" icon="rocket" >}}
 
-{{< contact-channel label="Canonical Discourse" text="discourse.canonical.com/u/ruifm" url="https://discourse.canonical.com/u/ruifm" icon="messages" >}}
+{{< contact-channel label="Canonical Discourse" text="ruifm" url="https://discourse.canonical.com/u/ruifm" icon="messages" >}}

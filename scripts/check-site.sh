@@ -61,6 +61,7 @@ readonly -a expected_icon_ids=(
   article
   brand-bluesky
   brand-github
+  brand-gitlab
   brand-linkedin
   brand-mastodon
   brand-matrix
@@ -134,11 +135,6 @@ readonly -a home_icon_ids=(
   file-cv
   article
   address-book
-  brand-mastodon
-  brand-bluesky
-  brand-x
-  brand-ycombinator
-  brand-reddit
 )
 for icon_id in "${home_icon_ids[@]}"; do
   if ! grep -Fq "/icons.svg#icon-${icon_id}" public/index.html; then
@@ -153,6 +149,14 @@ readonly -a contact_icon_ids=(
   brand-signal
   brand-telegram
   brand-whatsapp
+  brand-github
+  brand-linkedin
+  brand-gitlab
+  brand-mastodon
+  brand-bluesky
+  brand-x
+  brand-ycombinator
+  brand-reddit
   key
   brand-ubuntu
   rocket
@@ -364,7 +368,6 @@ fi
 readonly -a expected_home_sections=(
   '<h2 id=main-links>Main links</h2>'
   '<h2 id=on-this-site>On this site</h2>'
-  '<h2 id=other-profiles>Other profiles</h2>'
 )
 mapfile -t home_sections < <(
   rg -o '<h2 id=(main-links|on-this-site|other-profiles)>[^<]+</h2>' \
@@ -380,23 +383,77 @@ readonly -a main_link_urls=(
   'https://github.com/ruifm'
   'https://www.linkedin.com/in/ruiferreiramarques'
 )
-readonly -a other_profile_urls=(
+readonly -a contact_profile_urls=(
+  'https://github.com/ruifm'
+  'https://www.linkedin.com/in/ruiferreiramarques'
+  'https://gitlab.com/ruifm'
+  'https://discourse.llvm.org/u/ruifm'
   'https://mastodon.social/@ruimarques'
   'https://bsky.app/profile/ruirm.bsky.social'
   'https://x.com/ruimarquesXYZ'
   'https://news.ycombinator.com/user?id=ruimarquesXYZ'
   'https://www.reddit.com/user/ruimarquesxyz/'
 )
-for profile_url in "${main_link_urls[@]}" "${other_profile_urls[@]}"; do
+for profile_url in "${main_link_urls[@]}"; do
   if ! grep -Fq "$profile_url" public/index.html; then
     printf 'home page is missing profile URL: %s\n' "$profile_url" >&2
     exit 1
   fi
 done
 
-if grep -Fq '<h2 id=public-profiles>Public profiles</h2>' \
+readonly -a main_link_labels=(
+  'Email: rui@ruimarques.xyz'
+  'GitHub: ruifm'
+  'LinkedIn: ruiferreiramarques'
+)
+for link_label in "${main_link_labels[@]}"; do
+  if ! grep -Fq ">${link_label}</a>" public/index.html; then
+    printf 'home page is missing linked account name: %s\n' "$link_label" >&2
+    exit 1
+  fi
+done
+
+if ! grep -Fq '<h2 id=other-profiles>Other profiles</h2>' \
   public/contact/index.html; then
-  printf 'contact page still contains the public profiles section\n' >&2
+  printf 'contact page is missing the other profiles section\n' >&2
+  exit 1
+fi
+
+for profile_url in "${contact_profile_urls[@]}"; do
+  if ! grep -Fq "$profile_url" public/contact/index.html; then
+    printf 'contact page is missing profile URL: %s\n' "$profile_url" >&2
+    exit 1
+  fi
+done
+
+readonly -a other_profile_usernames=(
+  '>ruiferreiramarques</a>'
+  '>@ruimarques@mastodon.social</a>'
+  '>@ruirm.bsky.social</a>'
+  '>@ruimarquesXYZ</a>'
+  '>ruimarquesXYZ</a>'
+  '>u/ruimarquesxyz</a>'
+)
+for username_markup in "${other_profile_usernames[@]}"; do
+  if ! grep -Fq "$username_markup" public/contact/index.html; then
+    printf 'contact page is missing a linked profile username\n' >&2
+    exit 1
+  fi
+done
+if ! grep -Fq '<strong>GitHub:</strong> <a href=https://github.com/ruifm>ruifm</a>' \
+  public/contact/index.html \
+  || ! grep -Fq '<strong>LinkedIn:</strong> <a href=https://www.linkedin.com/in/ruiferreiramarques>ruiferreiramarques</a>' \
+    public/contact/index.html; then
+  printf 'contact page is missing GitHub or LinkedIn account details\n' >&2
+  exit 1
+fi
+if ! grep -Fq '<strong>Launchpad:</strong> <a href=https://launchpad.net/~ruifm>~ruifm</a>' \
+  public/contact/index.html; then
+  printf 'contact page is missing the Launchpad account name\n' >&2
+  exit 1
+fi
+if [[ $(rg -o '>ruifm</a>' public/contact/index.html | wc -l) -ne 5 ]]; then
+  printf 'contact page does not show all ruifm account names as links\n' >&2
   exit 1
 fi
 
@@ -429,8 +486,8 @@ if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
   exit 1
 fi
 
-if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 11 ]] \
-  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 11 ]]; then
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 20 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 20 ]]; then
   printf 'contact channels are not rendered as aligned rows\n' >&2
   exit 1
 fi
