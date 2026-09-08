@@ -144,8 +144,8 @@ js_route=/${js_files[0]#public/}
 fetch_and_compare "$js_route" "${js_files[0]}"
 
 mapfile -t qr_files < <(find public/images/qr -type f -name '*.png' -print)
-if [[ "${#qr_files[@]}" -ne 5 ]]; then
-  printf 'expected exactly five generated contact QR codes\n' >&2
+if [[ "${#qr_files[@]}" -ne 7 ]]; then
+  printf 'expected exactly seven generated contact QR codes\n' >&2
   exit 1
 fi
 for qr_file in "${qr_files[@]}"; do

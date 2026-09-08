@@ -60,6 +60,7 @@ readonly -a expected_icon_ids=(
   arrow-left
   article
   brand-bluesky
+  brand-discord
   brand-github
   brand-gitlab
   brand-linkedin
@@ -145,6 +146,7 @@ done
 
 readonly -a contact_icon_ids=(
   mail
+  brand-discord
   brand-matrix
   brand-signal
   brand-telegram
@@ -387,9 +389,13 @@ readonly -a contact_profile_urls=(
   'https://github.com/ruifm'
   'https://www.linkedin.com/in/ruiferreiramarques'
   'https://gitlab.com/ruifm'
+  'https://codeberg.org/ruifm'
+  'https://v15.next.forgejo.org/ruifm'
+  'https://sr.ht/~ruifm/'
   'https://discourse.llvm.org/u/ruifm'
   'https://mastodon.social/@ruimarques'
-  'https://bsky.app/profile/ruirm.bsky.social'
+  'https://bsky.app/profile/did:plc:5b6wffneywedc2mih64is257'
+  'https://discord.com/users/1546819009406701568'
   'https://x.com/ruimarquesXYZ'
   'https://news.ycombinator.com/user?id=ruimarquesXYZ'
   'https://www.reddit.com/user/ruimarquesxyz/'
@@ -427,6 +433,7 @@ for profile_url in "${contact_profile_urls[@]}"; do
 done
 
 readonly -a other_profile_usernames=(
+  '>ruimarquesxyz_48821</a>'
   '>ruiferreiramarques</a>'
   '>@ruimarques@mastodon.social</a>'
   '>@ruirm.bsky.social</a>'
@@ -452,7 +459,7 @@ if ! grep -Fq '<strong>Launchpad:</strong> <a href=https://launchpad.net/~ruifm>
   printf 'contact page is missing the Launchpad account name\n' >&2
   exit 1
 fi
-if [[ $(rg -o '>ruifm</a>' public/contact/index.html | wc -l) -ne 5 ]]; then
+if [[ $(rg -o '>ruifm</a>' public/contact/index.html | wc -l) -ne 9 ]]; then
   printf 'contact page does not show all ruifm account names as links\n' >&2
   exit 1
 fi
@@ -468,6 +475,16 @@ readonly matrix_url='https://matrix.to/#/@ruimarques:matrix.org'
 readonly signal_url='https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777'
 readonly telegram_url='https://t.me/ruimarquesXYZ'
 readonly whatsapp_url='https://wa.me/qr/AEZD43DYPFN2A1'
+readonly xmpp_url='xmpp:ruifm@conversations.im?message;type=chat'
+readonly libera_url='ircs://irc.libera.chat:6697/ruifm,isnick'
+readonly oftc_url='ircs://irc.oftc.net:6697/ruifm,isnick'
+for chat_url in "$xmpp_url" "$libera_url" "$oftc_url"; do
+  if ! grep -Fq "href=${chat_url}" public/contact/index.html \
+    && ! grep -Fq "href=\"${chat_url}\"" public/contact/index.html; then
+    printf 'contact page is missing a chat application link: %s\n' "$chat_url" >&2
+    exit 1
+  fi
+done
 grep -Fq "$keybase_url" public/contact/index.html
 grep -Fq "$canonical_email" public/contact/index.html
 grep -Fq "$canonical_pgp_url" public/contact/index.html
@@ -486,20 +503,22 @@ if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
   exit 1
 fi
 
-if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 20 ]] \
-  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 20 ]]; then
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 27 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 27 ]]; then
   printf 'contact channels are not rendered as aligned rows\n' >&2
   exit 1
 fi
 
-if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 5 ]] \
-  || [[ $(rg -o '/icons.svg#icon-qrcode' public/contact/index.html | wc -l) -ne 5 ]] \
+if [[ $(rg -o '<details class=contact-qr>' public/contact/index.html | wc -l) -ne 7 ]] \
+  || [[ $(rg -o '/icons.svg#icon-qrcode' public/contact/index.html | wc -l) -ne 7 ]] \
+  || ! grep -Fq 'Discord QR code</span></summary>' public/contact/index.html \
+  || ! grep -Fq 'XMPP QR code</span></summary>' public/contact/index.html \
   || ! grep -Fq 'Matrix QR code</span></summary>' public/contact/index.html \
   || ! grep -Fq 'Signal QR code</span></summary>' public/contact/index.html \
   || ! grep -Fq 'Telegram QR code</span></summary>' public/contact/index.html \
   || ! grep -Fq 'Ubuntu Matrix QR code</span></summary>' public/contact/index.html \
   || ! grep -Fq 'WhatsApp QR code</span></summary>' public/contact/index.html; then
-  printf 'contact page does not contain all five QR disclosures\n' >&2
+  printf 'contact page does not contain all seven QR disclosures\n' >&2
   exit 1
 fi
 
@@ -509,8 +528,8 @@ if [[ ! -d public/images/qr ]]; then
 fi
 
 mapfile -t qr_files < <(find public/images/qr -type f -name '*.png' -print)
-if [[ "${#qr_files[@]}" -ne 5 ]]; then
-  printf 'expected exactly five generated contact QR codes\n' >&2
+if [[ "${#qr_files[@]}" -ne 7 ]]; then
+  printf 'expected exactly seven generated contact QR codes\n' >&2
   exit 1
 fi
 
