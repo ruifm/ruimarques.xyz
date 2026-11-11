@@ -22,11 +22,11 @@
     {{- $sourceURL := printf "https://raw.githubusercontent.com/ruifm/ruimarques.xyz/main/content/%s" $.File.Path -}}
   <details class="post-signature">
     <summary>{{ partial "icon.html" (dict "name" "signature") }}<span>OpenPGP signature</span></summary>
-    <p>This signature covers the exact Markdown source of this post.</p>
+    <p>I signed the Markdown source of this post. Change a byte and the signature no longer verifies.</p>
     <p class="post-signature-links">
       <a href="{{ $publishedSignature.RelPermalink }}" download>{{ partial "icon.html" (dict "name" "download") }}<span>Download signature</span></a>
       <a href="{{ $sourceURL }}">{{ partial "icon.html" (dict "name" "markdown") }}<span>Signed Markdown</span></a>
-      <a href="/pgp">{{ partial "icon.html" (dict "name" "key") }}<span>Public key</span></a>
+      <a href="/pgp">{{ partial "icon.html" (dict "name" "key") }}<span>My public key</span></a>
     </p>
     <p class="post-signature-fingerprint">Fingerprint: <code>E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104</code></p>
     <pre><code>{{ .Content | strings.TrimSpace }}</code></pre>

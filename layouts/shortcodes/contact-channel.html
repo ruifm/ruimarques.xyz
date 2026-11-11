@@ -17,7 +17,7 @@
   <details class="contact-qr">
     <summary>{{ partial "icon.html" (dict "name" "qrcode") }}<span>{{ $label }} QR code</span></summary>
     <a href="{{ $href }}">
-      <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="QR code linking to Rui Marques on {{ $label }}" loading="lazy">
+      <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="QR code for my {{ $label }} account" loading="lazy">
     </a>
   </details>
     {{- end }}

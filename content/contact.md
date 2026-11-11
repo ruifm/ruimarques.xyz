@@ -1,10 +1,10 @@
 ---
 title: 'Contact'
-description: 'Ways to contact Rui Marques and verify his public identity.'
+description: 'My inboxes, public keys, and assorted internet handles.'
 ---
 
-Use whichever channel suits the conversation. I do not use a contact form or
-track visits to this page.
+Email is a good place to start. If you prefer another protocol, take your pick
+below. There is no contact form or tracking here.
 
 ## Direct
 
@@ -20,7 +20,7 @@ track visits to this page.
 
 {{< contact-channel label="WhatsApp" text="@rui447" url="https://wa.me/qr/AEZD43DYPFN2A1" icon="brand-whatsapp" qr="true" >}}
 
-{{< contact-others title="Others (not regularly used)" description="I do not check these accounts regularly, so I may not reply to messages sent through them." >}}
+{{< contact-others title="Others (not regularly used)" description="I do not check these often. If you need a reply, use one of the contacts above." >}}
 
 {{< contact-channel label="XMPP" text="ruifm@conversations.im" url="xmpp:ruifm@conversations.im?message;type=chat" icon="messages" qr="true" >}}
 
@@ -34,8 +34,8 @@ track visits to this page.
 
 ## OpenPGP
 
-{{< icon name="key" >}} My public key is available as [readable plain text](/pgp) and through WKD for
-`rui@ruimarques.xyz`.
+{{< icon name="key" >}} If you prefer your email encrypted, [here is my public key](/pgp).
+It is also available through WKD for `rui@ruimarques.xyz`.
 
 Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
 
@@ -71,7 +71,7 @@ Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
 
 ## Canonical and Ubuntu
 
-Use these channels for my work on Ubuntu and at Canonical.
+For Ubuntu and Canonical things, you can also find me here.
 
 {{< contact-channel label="Work email" text="rui.marques@canonical.com" url="mailto:rui.marques@canonical.com" icon="mail" >}}
 

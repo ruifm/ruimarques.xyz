@@ -1,6 +1,7 @@
 ---
 title: 'Blog'
-description: 'Notes on software, systems, and engineering by Rui Marques.'
+description: 'My notes on software, systems, open source, and the occasional rabbit hole.'
 ---
 
-Occasional notes on software, systems, open source, and engineering.
+Things I learned, broke, or spent too long thinking about. Mostly software,
+systems, and open source. There is no posting schedule.

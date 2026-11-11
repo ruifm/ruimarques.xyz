@@ -1,11 +1,14 @@
 ---
 title: 'Rui Marques'
-description: 'Software engineer in Lisbon working on compilers, static analysis, high-performance systems, and open source.'
+description: 'I work on compilers, Linux, and open source from Lisbon.'
 ---
 
-Hi, I’m Rui Marques, a software engineer based in Lisbon. I work on compilers,
-static analysis, and high-performance systems. I build open-source tools and
-care about clear, thoughtful engineering.
+Hi, I’m Rui. I live in Lisbon and work on the bits of software that other
+software stands on.
+
+I lead the bootloader team at Canonical. Before that, I spent six years on
+C++, LLVM, and static analysis: writing software that complains about other
+software.
 
 ## Main links
 
@@ -15,6 +18,6 @@ care about clear, thoughtful engineering.
 
 ## On this site
 
-- {{< icon name="file-cv" >}} [Curriculum vitae](/cv/) — Experience, skills, and education.
-- {{< icon name="article" >}} [Blog](/blog/) — Notes on software, systems, and engineering.
-- {{< icon name="address-book" >}} [Contact](/contact/) — Personal and work contact methods.
+- {{< icon name="file-cv" >}} [Curriculum vitae](/cv/) — The longer version.
+- {{< icon name="article" >}} [Blog](/blog/) — Things I learned, broke, or spent too long thinking about.
+- {{< icon name="address-book" >}} [Contact](/contact/) — Pick a protocol.

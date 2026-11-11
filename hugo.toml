@@ -10,7 +10,7 @@ disableKinds = ['taxonomy', 'term']
 
 [params]
   author = 'Rui Marques'
-  description = 'Software engineer in Lisbon working on compilers, static analysis, high-performance systems, and open source.'
+  description = 'I work on compilers, Linux, and open source from Lisbon.'
   email = 'rui@ruimarques.xyz'
   socialImage = '/social-card.png'
   twitter = '@ruimarquesXYZ'

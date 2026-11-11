@@ -1,10 +1,10 @@
 {{ define "main" }}
 <section class="blog-index">
   <header class="page-header">
-    <p class="eyebrow">Writing</p>
+    <p class="eyebrow">Notes</p>
     <h1>{{ .Title }}</h1>
     <div class="lede prose">{{ .Content }}</div>
-    <a class="feed-link" href="/blog/index.xml">{{ partial "icon.html" (dict "name" "rss") }}<span>Subscribe via RSS</span></a>
+    <a class="feed-link" href="/blog/index.xml">{{ partial "icon.html" (dict "name" "rss") }}<span>Get new posts via RSS</span></a>
   </header>
   {{ $posts := .RegularPages.ByDate.Reverse }}
   {{ if $posts }}
