@@ -75,4 +75,6 @@ Use these channels for my work on Ubuntu and at Canonical.
 
 {{< contact-channel label="Launchpad" text="~ruifm" url="https://launchpad.net/~ruifm" icon="rocket" >}}
 
+{{< contact-channel label="Ubuntu Discourse" text="ruifm" url="https://discourse.ubuntu.com/u/ruifm" icon="messages" >}}
+
 {{< contact-channel label="Canonical Discourse" text="ruifm" url="https://discourse.canonical.com/u/ruifm" icon="messages" >}}

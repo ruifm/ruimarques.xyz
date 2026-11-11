@@ -460,7 +460,7 @@ if ! grep -Fq '<strong>Launchpad:</strong> <a href=https://launchpad.net/~ruifm>
   printf 'contact page is missing the Launchpad account name\n' >&2
   exit 1
 fi
-if [[ $(rg -o '>ruifm</a>' public/contact/index.html | wc -l) -ne 10 ]]; then
+if [[ $(rg -o '>ruifm</a>' public/contact/index.html | wc -l) -ne 11 ]]; then
   printf 'contact page does not show all ruifm account names as links\n' >&2
   exit 1
 fi
@@ -471,6 +471,7 @@ readonly canonical_pgp_url='/pgp-canonical'
 readonly canonical_pgp_fingerprint='202A 6DBE B3C7 B6C4 3416 9C8E 78CC 4E39 07CF 376A'
 readonly canonical_matrix_url='https://matrix.to/#/@ruifm:ubuntu.com'
 readonly canonical_discourse_url='https://discourse.canonical.com/u/ruifm'
+readonly ubuntu_discourse_url='https://discourse.ubuntu.com/u/ruifm'
 readonly launchpad_url='https://launchpad.net/~ruifm'
 readonly matrix_url='https://matrix.to/#/@ruimarques:matrix.org'
 readonly signal_url='https://signal.me/#eu/jI5LNcRnImCMiebeYSFAY1gP58Fs8mC17D0efEb1JT1HRBoLVd5I86gs83EOl777'
@@ -492,6 +493,7 @@ grep -Fq "$canonical_pgp_url" public/contact/index.html
 grep -Fq "$canonical_pgp_fingerprint" public/contact/index.html
 grep -Fq "$canonical_matrix_url" public/contact/index.html
 grep -Fq "$canonical_discourse_url" public/contact/index.html
+grep -Fq "$ubuntu_discourse_url" public/contact/index.html
 grep -Fq "$launchpad_url" public/contact/index.html
 grep -Fq "$matrix_url" public/contact/index.html
 grep -Fq "$signal_url" public/contact/index.html
@@ -504,8 +506,8 @@ if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
   exit 1
 fi
 
-if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 28 ]] \
-  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 28 ]]; then
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 29 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 29 ]]; then
   printf 'contact channels are not rendered as aligned rows\n' >&2
   exit 1
 fi
