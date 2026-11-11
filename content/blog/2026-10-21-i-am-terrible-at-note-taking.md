@@ -1,7 +1,7 @@
 ---
 title: 'I am terrible at note-taking.'
 date: 2026-10-21
-description: 'I actually forgot how to write/type.'
+description: 'I seem to have forgotten how to write by hand.'
 draft: true
 ---
 
