@@ -420,9 +420,9 @@ for link_label in "${main_link_labels[@]}"; do
   fi
 done
 
-if ! grep -Fq '<h2 id=other-profiles>Other profiles</h2>' \
-  public/contact/index.html; then
-  printf 'contact page is missing the other profiles section\n' >&2
+if ! grep -Fq '<h2 id=coding>Coding</h2>' public/contact/index.html \
+  || ! grep -Fq '<h2 id=socials>Socials</h2>' public/contact/index.html; then
+  printf 'contact page is missing the coding or socials section\n' >&2
   exit 1
 fi
 

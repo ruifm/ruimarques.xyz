@@ -35,11 +35,9 @@ track visits to this page.
 
 Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
 
-## Other profiles
+## Coding
 
 {{< contact-channel label="GitHub" text="ruifm" url="https://github.com/ruifm" icon="brand-github" >}}
-
-{{< contact-channel label="LinkedIn" text="ruiferreiramarques" url="https://www.linkedin.com/in/ruiferreiramarques" icon="brand-linkedin" >}}
 
 {{< contact-channel label="GitLab" text="ruifm" url="https://gitlab.com/ruifm" icon="brand-gitlab" >}}
 
@@ -52,6 +50,10 @@ Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
 {{< contact-channel label="SourceHut" text="~ruifm" url="https://sr.ht/~ruifm/" icon="source-code" >}}
 
 {{< contact-channel label="LLVM Discourse" text="ruifm" url="https://discourse.llvm.org/u/ruifm" icon="messages" >}}
+
+## Socials
+
+{{< contact-channel label="LinkedIn" text="ruiferreiramarques" url="https://www.linkedin.com/in/ruiferreiramarques" icon="brand-linkedin" >}}
 
 {{< contact-channel label="Mastodon" text="@ruimarques@mastodon.social" url="https://mastodon.social/@ruimarques" icon="brand-mastodon" >}}
 
