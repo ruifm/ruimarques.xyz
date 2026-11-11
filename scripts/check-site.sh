@@ -421,9 +421,9 @@ for link_label in "${main_link_labels[@]}"; do
 done
 
 mapfile -t profile_sections < <(
-  rg -o '<h2 id=(socials|coding)>[^<]+</h2>' public/contact/index.html
+  rg -o '<h2 id=(contact-profiles|coding)>[^<]+</h2>' public/contact/index.html
 )
-if [[ "${profile_sections[*]}" != '<h2 id=socials>Socials</h2> <h2 id=coding>Coding</h2>' ]]; then
+if [[ "${profile_sections[*]}" != '<h2 id=contact-profiles>Socials</h2> <h2 id=coding>Coding</h2>' ]]; then
   printf 'contact page must show Socials before Coding\n' >&2
   exit 1
 fi

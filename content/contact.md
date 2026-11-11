@@ -39,7 +39,7 @@ It is also available through WKD for `rui@ruimarques.xyz`.
 
 Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
 
-## Socials
+## Socials {#contact-profiles}
 
 {{< contact-channel label="LinkedIn" text="ruiferreiramarques" url="https://www.linkedin.com/in/ruiferreiramarques" icon="brand-linkedin" >}}
 
