@@ -20,3 +20,5 @@ In middle school, I was likely better at mental arithmetic. Later, I either used
 Is that bad? Maybe not. Every task mentioned before is something that a machine can do vastly better. We might need to let some things go. If we are losing them, then we didn’t actually value them in the first place.
 
 Unless the world ends. But is that really what we should be optimizing for?
+
+*P.S. I wrote this entire post during Canonical’s Mexico Induction Sprint, in a session on neurology and the power of note-taking. We were encouraged to take notes on that very session. These were mine.*
