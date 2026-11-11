@@ -420,9 +420,31 @@ for link_label in "${main_link_labels[@]}"; do
   fi
 done
 
-if ! grep -Fq '<h2 id=coding>Coding</h2>' public/contact/index.html \
-  || ! grep -Fq '<h2 id=socials>Socials</h2>' public/contact/index.html; then
-  printf 'contact page is missing the coding or socials section\n' >&2
+mapfile -t profile_sections < <(
+  rg -o '<h2 id=(socials|coding)>[^<]+</h2>' public/contact/index.html
+)
+if [[ "${profile_sections[*]}" != '<h2 id=socials>Socials</h2> <h2 id=coding>Coding</h2>' ]]; then
+  printf 'contact page must show Socials before Coding\n' >&2
+  exit 1
+fi
+
+primary_contact_labels=$(xmllint --html --xpath \
+  "//div[@class='contact-channel'][preceding-sibling::h2[1][@id='direct']]//strong" \
+  public/contact/index.html 2>/dev/null | tr -d '\n')
+if [[ "$primary_contact_labels" != '<strong>Email:</strong><strong>Matrix:</strong><strong>Signal:</strong><strong>Keybase:</strong><strong>Telegram:</strong><strong>WhatsApp:</strong>' ]]; then
+  printf 'primary contact methods are missing or in the wrong order\n' >&2
+  exit 1
+fi
+
+collapsed_contact_groups=$(xmllint --html --xpath \
+  "count(//details[@class='contact-others' and not(@open)])" \
+  public/contact/index.html 2>/dev/null)
+other_contact_labels=$(xmllint --html --xpath \
+  "//details[@class='contact-others']//div[@class='contact-channel-address']//strong" \
+  public/contact/index.html 2>/dev/null | tr -d '\n')
+if [[ "$collapsed_contact_groups" != 1 ]] \
+  || [[ "$other_contact_labels" != '<strong>XMPP:</strong><strong>Discord:</strong><strong>IRC (Libera.Chat):</strong><strong>IRC (OFTC):</strong>' ]]; then
+  printf 'less-used contacts must be in one group, collapsed by default\n' >&2
   exit 1
 fi
 

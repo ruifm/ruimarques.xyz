@@ -1,0 +1,5 @@
+<details class="contact-others">
+  <summary>{{ partial "icon.html" (dict "name" "messages") }}<span>{{ .Get "title" }}</span></summary>
+  <p>{{ .Get "description" }}</p>
+  {{ .Inner | safeHTML }}
+</details>

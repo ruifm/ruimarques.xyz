@@ -462,6 +462,35 @@ h2 + .contact-channel {
   color: var(--accent);
 }
 
+.contact-others {
+  margin-block: 1.25rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.contact-others > summary {
+  color: var(--link);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.contact-others > summary:hover {
+  color: var(--warm);
+}
+
+.contact-others > summary .icon {
+  margin-right: 0.3rem;
+}
+
+.contact-others > p {
+  color: var(--muted);
+}
+
+.contact-others > .contact-channel:last-child {
+  border-bottom: 0;
+}
+
 .contact-qr {
   margin: 0;
   justify-self: end;
