@@ -2,7 +2,7 @@
 title: 'I am terrible at note-taking.'
 date: 2026-10-21
 description: 'I seem to have forgotten how to write by hand.'
-draft: true
+draft: false
 ---
 
 This is ridiculous. It feels so weird to write by hand. I can’t believe I used to do this every day some years ago. And I used to rely on handwritten notes!
