@@ -11,13 +11,17 @@ serve: cv
 cv:
     scripts/build-cv.sh
 
-# Sign one blog post with the OpenPGP key for this site.
+# Mark one blog post ready for publication and sign it with the site's OpenPGP key.
 sign-post post:
     scripts/sign-blog-post.sh "{{ post }}"
 
 # Verify all signed blog posts with the published OpenPGP key.
 verify-post-signatures:
     scripts/check-blog-signatures.sh
+
+# Test blog publication and signing with a temporary OpenPGP key.
+test-sign-post:
+    bash scripts/test-sign-blog-post.sh
 
 # Build the production site into public/.
 build: cv
@@ -33,6 +37,7 @@ check: build
     nixfmt --check flake.nix
     shellcheck scripts/*.sh
     scripts/check-assets.sh
+    bash scripts/test-sign-blog-post.sh
     scripts/check-blog-signatures.sh
     scripts/check-site.sh
     scripts/check-pgp.sh

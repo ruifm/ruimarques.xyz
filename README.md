@@ -32,21 +32,26 @@ Create a draft blog post with a lowercase, hyphenated slug:
 just new-post compiler-notes
 ```
 
-Posts live at `content/blog/YYYY-MM-DD-slug.md`. Set `draft: false` when a post
-is ready; published posts require a short description. The blog feed publishes
+Posts live at `content/blog/YYYY-MM-DD-slug.md`. Keep `draft: true` while writing;
+published posts require a short description. The blog feed publishes
 the twenty newest posts in full at `/blog/index.xml`.
 
-Sign a completed post with the OpenPGP key for this site:
+Mark a completed post ready for publication and sign it with the site's OpenPGP key:
 
 ```sh
 just sign-post content/blog/2026-04-11-fewer-engineers-harder-problems.md
 ```
 
-The recipe writes an ASCII detached signature under `assets/blog-signatures/`.
+The recipe sets `draft: false` in a temporary copy, signs that copy, and verifies
+the signature before updating the Markdown file and its ASCII detached signature
+under `assets/blog-signatures/`. If GPG cannot sign the post, both original files
+stay unchanged. Commit and push both files to publish the signed version.
+
 The private key stays in your local GPG keyring. A signed post shows a collapsed
 signature section with links to the signature, the signed Markdown, and the
 public key. Sign the post again after each content or metadata change. Run
-`just verify-post-signatures` to verify all signed posts.
+`just verify-post-signatures` to verify all signed posts. Run `just test-sign-post`
+to test the signing workflow with a temporary key.
 
 `content/cv.md` is the source for both CV formats. Use this command to build
 only the PDF:

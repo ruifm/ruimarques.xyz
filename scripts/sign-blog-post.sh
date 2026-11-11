@@ -32,13 +32,24 @@ fi
 
 post_name=${post_file##*/}
 readonly signature_file="assets/blog-signatures/${post_name%.md}.asc"
+readonly temporary_post="$signing_directory/post.md"
 readonly temporary_signature="$signing_directory/signature.asc"
+readonly verification_keyring="$key_info_directory/ruimarques.gpg"
+
+sed '2,/^---$/s/^\(draft:[[:blank:]]*\)true\([[:blank:]]*\)$/\1false\2/' \
+  "$post_file" > "$temporary_post"
 
 gpg --armor --detach-sign --local-user "$fingerprint" \
-  --output "$temporary_signature" "$post_file"
+  --output "$temporary_signature" "$temporary_post"
+
+GNUPGHOME="$key_info_directory" gpg --batch --dearmor \
+  --output "$verification_keyring" static/pgp
+GNUPGHOME="$key_info_directory" gpgv --keyring "$verification_keyring" \
+  "$temporary_signature" "$temporary_post"
 
 mkdir -p "$(dirname "$signature_file")"
+install -m 0644 "$temporary_post" "$post_file"
 install -m 0644 "$temporary_signature" "$signature_file"
 scripts/check-blog-signatures.sh
-printf 'signed %s\n' "$post_file"
+printf 'ready to publish: %s\n' "$post_file"
 printf 'wrote %s\n' "$signature_file"
