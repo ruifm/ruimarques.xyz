@@ -43,6 +43,8 @@ Fingerprint: `E3ED B685 8BF8 D62C BDEA 6617 379C A4B2 775B C104`
 
 {{< contact-channel label="GitLab" text="ruifm" url="https://gitlab.com/ruifm" icon="brand-gitlab" >}}
 
+{{< contact-channel label="freedesktop.org GitLab" text="ruifm" url="https://gitlab.freedesktop.org/ruifm" icon="brand-gitlab" >}}
+
 {{< contact-channel label="Codeberg" text="ruifm" url="https://codeberg.org/ruifm" icon="source-code" >}}
 
 {{< contact-channel label="Forgejo" text="ruifm" url="https://v15.next.forgejo.org/ruifm" icon="source-code" >}}

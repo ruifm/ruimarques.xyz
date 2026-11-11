@@ -389,6 +389,7 @@ readonly -a contact_profile_urls=(
   'https://github.com/ruifm'
   'https://www.linkedin.com/in/ruiferreiramarques'
   'https://gitlab.com/ruifm'
+  'https://gitlab.freedesktop.org/ruifm'
   'https://codeberg.org/ruifm'
   'https://v15.next.forgejo.org/ruifm'
   'https://sr.ht/~ruifm/'
@@ -459,7 +460,7 @@ if ! grep -Fq '<strong>Launchpad:</strong> <a href=https://launchpad.net/~ruifm>
   printf 'contact page is missing the Launchpad account name\n' >&2
   exit 1
 fi
-if [[ $(rg -o '>ruifm</a>' public/contact/index.html | wc -l) -ne 9 ]]; then
+if [[ $(rg -o '>ruifm</a>' public/contact/index.html | wc -l) -ne 10 ]]; then
   printf 'contact page does not show all ruifm account names as links\n' >&2
   exit 1
 fi
@@ -503,8 +504,8 @@ if rg -ni 'New Chat screen|reserved;|username contact|not available yet' \
   exit 1
 fi
 
-if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 27 ]] \
-  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 27 ]]; then
+if [[ $(rg -o '<div class=contact-channel>' public/contact/index.html | wc -l) -ne 28 ]] \
+  || [[ $(rg -o '<div class=contact-channel-address>' public/contact/index.html | wc -l) -ne 28 ]]; then
   printf 'contact channels are not rendered as aligned rows\n' >&2
   exit 1
 fi
