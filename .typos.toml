@@ -1,5 +1,6 @@
 [files]
 extend-exclude = [
+  "assets/blog-signatures/",
   "public/",
   "resources/",
   "static/.well-known/openpgpkey/",
