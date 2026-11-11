@@ -1,7 +1,7 @@
 ---
 title: 'Introducing initial upki support'
 description: 'Ubuntu 26.10 adds upki certificate revocation checks to curl, with local data and no additional network calls during verification.'
-draft: true
+draft: false
 ---
 
 Originally published on [Ubuntu Discourse](https://discourse.ubuntu.com/t/introducing-initial-upki-support/91540) on 10 November 2026.
