@@ -681,6 +681,10 @@ h2 + .contact-channel {
   margin-top: 3.2rem;
 }
 
+.post-content img {
+  height: auto;
+}
+
 .post-signature {
   margin-top: 3.5rem;
   padding: 0.9rem 1rem;
